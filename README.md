@@ -10,6 +10,7 @@ The metadata from SRA is in [./metadata/](./metadata).
 
 Alignments of individual segments are in [./alignments/](./alignments).
 
+For NextStrain-style formatted version of the genomes and associated metadata,  please see [https://github.com/moncla-lab/avian-flu-USDA-cattle/](https://github.com/moncla-lab/avian-flu-USDA-cattle/). 
 
 ### Data usage
 
