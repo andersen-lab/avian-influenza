@@ -9,3 +9,10 @@ The consensus genomes are in [./fasta/](./fasta).
 The metadata from SRA is in [./metadata/](./metadata). 
 
 Alignments of individual segments are in [./alignments/](./alignments).
+
+
+### Data usage
+
+We have shared this data with the hope that people will download and use it, as well as scrutinize it so we can improve the data quality. Please contact us if you have any questions or comments.
+
+Please refer to the [NCBI usage policies]( https://www.ncbi.nlm.nih.gov/home/about/policies/) for more details.
