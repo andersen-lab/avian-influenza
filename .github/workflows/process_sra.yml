@@ -1,0 +1,120 @@
+name: Process Flu SRA
+run-name: ${{ github.event.inputs.reason || 'Scheduled Run' }}
+on:
+  schedule:
+    - cron: '0 17 * * *'
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for running the workflow'
+        required: true
+        default: 'Routine Processing'
+
+env:
+  NXF_VER: "23.04.1"
+  NXF_WORK: ${{ github.workspace }}/work
+  NXF_OUPUT: ${{ github.workspace }}/output
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  fetch_sra:
+    runs-on: ubuntu-22.04
+    outputs:
+      chunk_files: ${{ steps.split_sra.outputs.chunk_files }}
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: ./.github/actions/install-dependencies
+      - name: Run nextflow
+        run: nextflow run https://github.com/gp201/flusra.git -r 'main' -c ${{ github.workspace }}/config/nextflow.config -profile mamba --only_fetch true --bioproject "PRJNA1102327" --outdir ${{ env.NXF_OUPUT }}
+      - name: Split SRAs into chunks
+        id: split_sra
+        run: |
+          mkdir -p ${{ github.workspace }}/sra_chunks
+          mv ${{ env.NXF_OUPUT }}/metadata/SraRunTable_PRJNA1102327_automated_new.txt ${{ github.workspace }}/sra_chunks/
+          split -l 5  ${{ github.workspace }}/sra_chunks/SraRunTable_PRJNA1102327_automated_new.txt ${{ github.workspace }}/sra_chunks/chunk_
+          rm ${{ github.workspace }}/sra_chunks/SraRunTable_PRJNA1102327_automated_new.txt
+          ls ${{ github.workspace }}/sra_chunks/ > chunk_files.txt
+          chunk_files=$(cat chunk_files.txt | jq -R . | jq -s . | tr -d '\n' | tr -d " ")
+          echo "chunk_files=$chunk_files" >> $GITHUB_OUTPUT
+      - name: Upload chunk files
+        uses: actions/upload-artifact@v4
+        with:
+          name: chunk_files
+          path: ${{ github.workspace }}/sra_chunks/
+      - name: Upload Metadata
+        uses: actions/upload-artifact@v4
+        with:
+          name: metadata
+          path: ${{ env.NXF_OUPUT }}/metadata/SraRunTable_PRJNA1102327_automated_updated.csv
+
+  process_sra:
+    needs: fetch_sra
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        shell: bash -el {0}
+    strategy:
+      fail-fast: false
+      matrix:
+        chunk_file: ${{fromJson(needs.fetch_sra.outputs.chunk_files)}}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: ./.github/actions/install-dependencies
+      - name: Download chunk files
+        uses: actions/download-artifact@v4
+        with:
+          name: chunk_files
+          path: ${{ github.workspace }}/sra_chunks/
+      - name: Run nextflow
+        run: nextflow run https://github.com/gp201/flusra.git -r 'main' -c ${{ github.workspace }}/config/nextflow.config -profile mamba --sra_accessions ${{ github.workspace }}/sra_chunks/${{ matrix.chunk_file }} --outdir ${{ env.NXF_OUPUT }}
+      - name: Upload Metadata
+        uses: actions/upload-artifact@v4
+        with:
+          name: files-${{ matrix.chunk_file }}
+          path: |
+            ${{ env.NXF_OUPUT }}/fasta/
+            ${{ env.NXF_OUPUT }}/depth/
+            ${{ env.NXF_OUPUT }}/variants/
+      - name: Upload Artifacts
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: outputs
+          path: |
+            /home/runner/ncbi_error_report.txt
+  push_files:
+    needs: process_sra
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Download metadata
+        uses: actions/download-artifact@v4
+        with:
+          name: metadata
+          path: ${{ env.NXF_OUPUT }}/
+      - name: Download files
+        uses: actions/download-artifact@v4
+        with:
+          pattern: files-*
+          path: ${{ env.NXF_OUPUT }}/
+          merge-multiple: true
+      - name: Push outputs
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          mv ${{ env.NXF_OUPUT }}/SraRunTable_PRJNA1102327_automated_updated.csv ${{ github.workspace }}/metadata/SraRunTable_PRJNA1102327_automated.csv
+          mv ${{ env.NXF_OUPUT }}/fasta/*.fa ${{ github.workspace }}/fasta/
+          mv ${{ env.NXF_OUPUT }}/depth/*.tsv ${{ github.workspace }}/depth/
+          mv ${{ env.NXF_OUPUT }}/variants/*.tsv ${{ github.workspace }}/variants/
+          git add ${{ github.workspace }}/metadata/SraRunTable_PRJNA1102327_automated.csv
+          git add ${{ github.workspace }}/fasta/*.fa
+          git add ${{ github.workspace }}/depth/*.tsv
+          git add ${{ github.workspace }}/variants/*.tsv
+          git commit -m "Add consensus sequences, depth and variants files and update metadata"
+          git push
