@@ -1,0 +1,34 @@
+name: 'Install Dependencies'
+description: 'Install dependencies for the pipeline'
+runs:
+  using: 'composite'
+  steps:
+    - name: Free disk space
+      run: |
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+      shell: bash
+    - name: Cache envs
+      id: cache-envs
+      uses: actions/cache@v4
+      with:
+        path: |
+          ${{ env.NXF_WORK }}/conda
+          /opt/hostedtoolcache/nextflow/${{ env.NXF_VER }}
+        key: env-${{ env.NXF_VER }}-${{ github.job }}
+        restore-keys: |
+          env-${{ env.NXF_VER }}-${{ github.job }}
+          env-${{ env.NXF_VER }}
+          env-
+    - name: Setup for conda
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        python-version: 3.11
+        mamba-version: "*"
+        channels: conda-forge,bioconda,defaults
+        channel-priority: true
+        activate-environment: anaconda-client-env
+    - name: Setup nextflow
+      uses: nf-core/setup-nextflow@v2
+      with:
+        version: ${{ env.NXF_VER }}
