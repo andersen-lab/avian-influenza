@@ -1,4 +1,4 @@
-name: Process Flu SRA
+name: Map to GenBank Sequences
 run-name: ${{ github.event.inputs.reason || 'Scheduled Run' }}
 on:
   schedule:
