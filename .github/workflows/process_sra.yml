@@ -10,6 +10,9 @@ on:
         required: true
         default: 'Routine Processing'
 
+concurrency:
+  group: ${{ github.repository }}
+
 env:
   NXF_VER: "23.04.1"
   NXF_WORK: ${{ github.workspace }}/work

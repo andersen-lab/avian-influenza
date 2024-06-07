@@ -2,16 +2,18 @@
 
 BioProject: [PRJNA1102327](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1102327)
 
-This repository aims to provide consensus sequences, variant calls and depth information for the SRA data associated with BioProject [PRJNA1102327](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1102327). The repository checks for new data every 24 hours and updates the consensus sequences, variant calls and depth information accordingly.
+This repository aims to provide consensus sequences, variant calls and depth information for the SRA data associated with BioProject [PRJNA1102327](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1102327). The repository checks for new data every 24 hours and updates the consensus sequences, variant calls and depth information accordingly. Additionally, the repository updates mapping of consensus genomes to the respective GenBank sequences by sample name every 24 hours.
 
-All the data generated from **23rd May 2023** uses the genbank genome [A/cattle/Texas/24-008749-002/2024(H5N1)](https://www.ncbi.nlm.nih.gov/nuccore/?term=A%2Fcattle%2FTexas%2F24-008749-002%2F2024(H5N1)) as a reference. The reference genome is stored in [./reference/](./reference). Minimum depth was set at 1, minimum quality at 20, and the consensus threshold at 50%.
+All the data generated from **23rd May 2024** uses the genbank genome [A/cattle/Texas/24-008749-002/2024(H5N1)](https://www.ncbi.nlm.nih.gov/nuccore/?term=A%2Fcattle%2FTexas%2F24-008749-002%2F2024(H5N1)) as a reference. The reference genome is stored in [./reference/](./reference). Minimum depth was set at 1, minimum quality at 20, and the consensus threshold at 50%.
 
 > [!NOTE]
-> Prior to **23rd May 2023** Consensus genomes for 8 segments were generated with `EPI_ISL_19032063` (source: GISAID) as a reference using [iVar v1.4.2](https://github.com/andersen-lab/ivar). Minimum depth was set at 1, minimum quality at 20, and the consensus threshold at 50%.
+> Prior to **23rd May 2024** Consensus genomes for 8 segments were generated with `EPI_ISL_19032063` (source: GISAID) as a reference using [iVar v1.4.2](https://github.com/andersen-lab/ivar). Minimum depth was set at 1, minimum quality at 20, and the consensus threshold at 50%.
 
 The consensus genomes are in [./fasta/](./fasta).
 
 The SRA metadata is stored in [./metadata/SraRunTable_PRJNA1102327_automated.csv](./metadata/SraRunTable_PRJNA1102327_automated.csv)
+
+The mapping of consensus genomes to the respective GenBank sequences by sample name is in [./metadata/genbank_mapping.tsv](./metadata/genbank_mapping.tsv)
 
 The variant calls are in [./variants/](./variants).
 
