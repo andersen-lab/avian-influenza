@@ -12,7 +12,8 @@ cd $tmpdir
 # Use NCBI Virus search to download metadata for H5N1 collected in USA since 2023
 # Influenza A virus NCBI Taxonomy ID = 11320
 tax_id=11320
-ncbi_virus_url='https://www.ncbi.nlm.nih.gov/genomes/VirusVariation/vvsearch2/?fq=%7B%21tag%3DSeqType_s%7DSeqType_s%3A%28%22Nucleotide%22%29&fq=VirusLineageId_ss%3A%28'$tax_id'%29&fq=%7B%21tag=CollectionDate_dr%7DCollectionDate_dr:%5B2023-01-01T00:00:00.00Z%20TO%202024-06-04T23:59:59.00Z%5D&fq=%7B%21edismax%20qf=Serotype_s%7DH5N1&fq=%7B%21tag=Country_s%7DCountry_s:%28%22USA%22%29&q=%2A%3A%2A&cmd=download&dlfmt=csv&fl=genbank_acc%3AAccVer_s%2Cisolate%3AIsolate_s%2Clocation%3ACountryFull_s%2Ccollected%3ACollectionDate_s%2Chost%3AHost_s%2Cbioproject_accession%3ABioProject_s%2Cstrain%3AStrain_s%2Cserotype%3ASerotype_s%2Csegment%3ASegment_s&sort=id+asc'
+today=$(date +%F)
+ncbi_virus_url='https://www.ncbi.nlm.nih.gov/genomes/VirusVariation/vvsearch2/?fq=%7B%21tag%3DSeqType_s%7DSeqType_s%3A%28%22Nucleotide%22%29&fq=VirusLineageId_ss%3A%28'$tax_id'%29&fq=%7B%21tag=CollectionDate_dr%7DCollectionDate_dr:%5B2023-01-01T00:00:00.00Z%20TO%20'$today'T23:59:59.00Z%5D&fq=%7B%21edismax%20qf=Serotype_s%7DH5N1&fq=%7B%21tag=Country_s%7DCountry_s:%28%22USA%22%29&q=%2A%3A%2A&cmd=download&dlfmt=csv&fl=genbank_acc%3AAccVer_s%2Cisolate%3AIsolate_s%2Clocation%3ACountryFull_s%2Ccollected%3ACollectionDate_s%2Chost%3AHost_s%2Cbioproject_accession%3ABioProject_s%2Cstrain%3AStrain_s%2Cserotype%3ASerotype_s%2Csegment%3ASegment_s&sort=id+asc'
 
 curl -fSs "$ncbi_virus_url" > ncbi_virus_metadata.csv
 
