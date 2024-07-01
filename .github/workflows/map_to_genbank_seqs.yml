@@ -23,7 +23,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Map to GenBank Sequences
-        run: bash scripts/map_genbank.sh ${{ github.workspace }}/metadata/SraRunTable_PRJNA1102327.csv ${{ github.workspace }}/fasta/ > ${{ github.workspace }}/metadata/genbank_mapping.tsv
+        run: bash scripts/map_genbank.sh ${{ github.workspace }}/metadata/SraRunTable_automated.csv ${{ github.workspace }}/fasta/ > ${{ github.workspace }}/metadata/genbank_mapping.tsv
       - name: Push GenBank Mappings
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
