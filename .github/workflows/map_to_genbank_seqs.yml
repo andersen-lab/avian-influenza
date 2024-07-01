@@ -1,0 +1,36 @@
+name: Map to GenBank Sequences
+run-name: ${{ github.event.inputs.reason || 'Scheduled Run' }}
+on:
+  schedule:
+    - cron: '0 18 * * *'
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for running the workflow'
+        required: true
+        default: 'Routine Processing'
+
+concurrency:
+  group: ${{ github.repository }}
+
+jobs:
+  map_to_genbank_seqs:
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Map to GenBank Sequences
+        run: bash scripts/map_genbank.sh ${{ github.workspace }}/metadata/SraRunTable_automated.csv ${{ github.workspace }}/fasta/ > ${{ github.workspace }}/metadata/genbank_mapping.tsv
+      - name: Push GenBank Mappings
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          mv ${{ github.workspace }}/genbank_mapping.tsv ${{ github.workspace }}/metadata/genbank_mapping.tsv
+          if [[ $(git status --porcelain ${{ github.workspace }}/metadata/genbank_mapping.tsv) ]]; then
+            git add ${{ github.workspace }}/metadata/genbank_mapping.tsv
+            git commit -m "Update GenBank mappings"
+            git push
+          fi
