@@ -1,6 +1,8 @@
 ## Consensus sequences for U.S. H5N1 clade 2.3.4.4b
 
-BioProject: [PRJNA1102327](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1102327)
+BioProjects: 
+- [PRJNA1102327](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1102327)
+- [PRJNA1122849](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1122849)
 
 This repository aims to provide consensus sequences, variant calls and depth information for the SRA data associated with BioProject [PRJNA1102327](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1102327). The repository checks for new data every 24 hours and updates the consensus sequences, variant calls and depth information accordingly. Additionally, the repository updates mapping of consensus genomes to the respective GenBank sequences by sample name every 24 hours.
 
@@ -11,7 +13,7 @@ All the data generated from **23rd May 2024** uses the genbank genome [A/cattle/
 
 The consensus genomes are in [./fasta/](./fasta).
 
-The SRA metadata is stored in [./metadata/SraRunTable_PRJNA1102327_automated.csv](./metadata/SraRunTable_PRJNA1102327_automated.csv)
+The SRA metadata is stored in [./metadata/SraRunTable_automated.csv](./metadata/SraRunTable_automated.csv)
 
 The mapping of consensus genomes to the respective GenBank sequences by sample name is in [./metadata/genbank_mapping.tsv](./metadata/genbank_mapping.tsv)
 
