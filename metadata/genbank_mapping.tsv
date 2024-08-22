@@ -6719,6 +6719,14 @@ SRR29740693_NS_cns.fa	Consensus_SRR29740693_NS_cns_threshold_0.5_quality_20	SRR2
 SRR29740693_PA_cns.fa	Consensus_SRR29740693_PA_cns_threshold_0.5_quality_20	SRR29740693	PA	PQ168171.1	3	A/chicken/CO/24-018507-001-original/2024
 SRR29740693_PB1_cns.fa	Consensus_SRR29740693_PB1_cns_threshold_0.5_quality_20	SRR29740693	PB1	PQ168170.1	2	A/chicken/CO/24-018507-001-original/2024
 SRR29740693_PB2_cns.fa	Consensus_SRR29740693_PB2_cns_threshold_0.5_quality_20	SRR29740693	PB2	PQ168169.1	1	A/chicken/CO/24-018507-001-original/2024
+SRR29740694_HA_cns.fa	Consensus_SRR29740694_HA_cns_threshold_0.5_quality_20	SRR29740694	HA	PQ197166.1	4	A/cat/MN/24-018452-002-original/2024
+SRR29740694_MP_cns.fa	Consensus_SRR29740694_MP_cns_threshold_0.5_quality_20	SRR29740694	MP	PQ197169.1	7	A/cat/MN/24-018452-002-original/2024
+SRR29740694_NA_cns.fa	Consensus_SRR29740694_NA_cns_threshold_0.5_quality_20	SRR29740694	NA	PQ197168.1	6	A/cat/MN/24-018452-002-original/2024
+SRR29740694_NP_cns.fa	Consensus_SRR29740694_NP_cns_threshold_0.5_quality_20	SRR29740694	NP	PQ197167.1	5	A/cat/MN/24-018452-002-original/2024
+SRR29740694_NS_cns.fa	Consensus_SRR29740694_NS_cns_threshold_0.5_quality_20	SRR29740694	NS	PQ197170.1	8	A/cat/MN/24-018452-002-original/2024
+SRR29740694_PA_cns.fa	Consensus_SRR29740694_PA_cns_threshold_0.5_quality_20	SRR29740694	PA	PQ197165.1	3	A/cat/MN/24-018452-002-original/2024
+SRR29740694_PB1_cns.fa	Consensus_SRR29740694_PB1_cns_threshold_0.5_quality_20	SRR29740694	PB1	PQ197164.1	2	A/cat/MN/24-018452-002-original/2024
+SRR29740694_PB2_cns.fa	Consensus_SRR29740694_PB2_cns_threshold_0.5_quality_20	SRR29740694	PB2	PQ197163.1	1	A/cat/MN/24-018452-002-original/2024
 SRR29740727_HA_cns.fa	Consensus_SRR29740727_HA_cns_threshold_0.5_quality_20	SRR29740727	HA	PQ168124.1	4	A/cattle/IA/24-018277-001-original/2024
 SRR29740727_MP_cns.fa	Consensus_SRR29740727_MP_cns_threshold_0.5_quality_20	SRR29740727	MP	PQ168127.1	7	A/cattle/IA/24-018277-001-original/2024
 SRR29740727_NA_cns.fa	Consensus_SRR29740727_NA_cns_threshold_0.5_quality_20	SRR29740727	NA	PQ168126.1	6	A/cattle/IA/24-018277-001-original/2024
@@ -6759,3 +6767,35 @@ SRR29740737_NS_cns.fa	Consensus_SRR29740737_NS_cns_threshold_0.5_quality_20	SRR2
 SRR29740737_PA_cns.fa	Consensus_SRR29740737_PA_cns_threshold_0.5_quality_20	SRR29740737	PA	PQ168027.1	3	A/Turkey/MN/24-018153-001-original/2024
 SRR29740737_PB1_cns.fa	Consensus_SRR29740737_PB1_cns_threshold_0.5_quality_20	SRR29740737	PB1	PQ168026.1	2	A/Turkey/MN/24-018153-001-original/2024
 SRR29740737_PB2_cns.fa	Consensus_SRR29740737_PB2_cns_threshold_0.5_quality_20	SRR29740737	PB2	PQ168025.1	1	A/Turkey/MN/24-018153-001-original/2024
+SRR29851676_HA_cns.fa	Consensus_SRR29851676_HA_cns_threshold_0.5_quality_20	SRR29851676	HA	PQ197150.1	4	A/House Sparrow/IA/24-018880-002-original/2024
+SRR29851676_MP_cns.fa	Consensus_SRR29851676_MP_cns_threshold_0.5_quality_20	SRR29851676	MP	PQ197153.1	7	A/House Sparrow/IA/24-018880-002-original/2024
+SRR29851676_NA_cns.fa	Consensus_SRR29851676_NA_cns_threshold_0.5_quality_20	SRR29851676	NA	PQ197152.1	6	A/House Sparrow/IA/24-018880-002-original/2024
+SRR29851676_NP_cns.fa	Consensus_SRR29851676_NP_cns_threshold_0.5_quality_20	SRR29851676	NP	PQ197151.1	5	A/House Sparrow/IA/24-018880-002-original/2024
+SRR29851676_NS_cns.fa	Consensus_SRR29851676_NS_cns_threshold_0.5_quality_20	SRR29851676	NS	PQ197154.1	8	A/House Sparrow/IA/24-018880-002-original/2024
+SRR29851676_PA_cns.fa	Consensus_SRR29851676_PA_cns_threshold_0.5_quality_20	SRR29851676	PA	PQ197149.1	3	A/House Sparrow/IA/24-018880-002-original/2024
+SRR29851676_PB1_cns.fa	Consensus_SRR29851676_PB1_cns_threshold_0.5_quality_20	SRR29851676	PB1	PQ197148.1	2	A/House Sparrow/IA/24-018880-002-original/2024
+SRR29851676_PB2_cns.fa	Consensus_SRR29851676_PB2_cns_threshold_0.5_quality_20	SRR29851676	PB2	PQ197147.1	1	A/House Sparrow/IA/24-018880-002-original/2024
+SRR29851677_HA_cns.fa	Consensus_SRR29851677_HA_cns_threshold_0.5_quality_20	SRR29851677	HA	PQ197142.1	4	A/American Robin/IA/24-018880-001-original/2024
+SRR29851677_MP_cns.fa	Consensus_SRR29851677_MP_cns_threshold_0.5_quality_20	SRR29851677	MP	PQ197145.1	7	A/American Robin/IA/24-018880-001-original/2024
+SRR29851677_NA_cns.fa	Consensus_SRR29851677_NA_cns_threshold_0.5_quality_20	SRR29851677	NA	PQ197144.1	6	A/American Robin/IA/24-018880-001-original/2024
+SRR29851677_NP_cns.fa	Consensus_SRR29851677_NP_cns_threshold_0.5_quality_20	SRR29851677	NP	PQ197143.1	5	A/American Robin/IA/24-018880-001-original/2024
+SRR29851677_NS_cns.fa	Consensus_SRR29851677_NS_cns_threshold_0.5_quality_20	SRR29851677	NS	PQ197146.1	8	A/American Robin/IA/24-018880-001-original/2024
+SRR29851677_PA_cns.fa	Consensus_SRR29851677_PA_cns_threshold_0.5_quality_20	SRR29851677	PA	PQ197141.1	3	A/American Robin/IA/24-018880-001-original/2024
+SRR29851677_PB1_cns.fa	Consensus_SRR29851677_PB1_cns_threshold_0.5_quality_20	SRR29851677	PB1	PQ197140.1	2	A/American Robin/IA/24-018880-001-original/2024
+SRR29851677_PB2_cns.fa	Consensus_SRR29851677_PB2_cns_threshold_0.5_quality_20	SRR29851677	PB2	PQ197139.1	1	A/American Robin/IA/24-018880-001-original/2024
+SRR29851678_HA_cns.fa	Consensus_SRR29851678_HA_cns_threshold_0.5_quality_20	SRR29851678	HA	PQ197134.1	4	A/American Robin/IA/24-018879-003-original/2024
+SRR29851678_MP_cns.fa	Consensus_SRR29851678_MP_cns_threshold_0.5_quality_20	SRR29851678	MP	PQ197137.1	7	A/American Robin/IA/24-018879-003-original/2024
+SRR29851678_NA_cns.fa	Consensus_SRR29851678_NA_cns_threshold_0.5_quality_20	SRR29851678	NA	PQ197136.1	6	A/American Robin/IA/24-018879-003-original/2024
+SRR29851678_NP_cns.fa	Consensus_SRR29851678_NP_cns_threshold_0.5_quality_20	SRR29851678	NP	PQ197135.1	5	A/American Robin/IA/24-018879-003-original/2024
+SRR29851678_NS_cns.fa	Consensus_SRR29851678_NS_cns_threshold_0.5_quality_20	SRR29851678	NS	PQ197138.1	8	A/American Robin/IA/24-018879-003-original/2024
+SRR29851678_PA_cns.fa	Consensus_SRR29851678_PA_cns_threshold_0.5_quality_20	SRR29851678	PA	PQ197133.1	3	A/American Robin/IA/24-018879-003-original/2024
+SRR29851678_PB1_cns.fa	Consensus_SRR29851678_PB1_cns_threshold_0.5_quality_20	SRR29851678	PB1	PQ197132.1	2	A/American Robin/IA/24-018879-003-original/2024
+SRR29851678_PB2_cns.fa	Consensus_SRR29851678_PB2_cns_threshold_0.5_quality_20	SRR29851678	PB2	PQ197131.1	1	A/American Robin/IA/24-018879-003-original/2024
+SRR29851700_HA_cns.fa	Consensus_SRR29851700_HA_cns_threshold_0.5_quality_20	SRR29851700	HA	PQ197158.1	4	A/Turkey/MN/24-019077-001-original/2024
+SRR29851700_MP_cns.fa	Consensus_SRR29851700_MP_cns_threshold_0.5_quality_20	SRR29851700	MP	PQ197161.1	7	A/Turkey/MN/24-019077-001-original/2024
+SRR29851700_NA_cns.fa	Consensus_SRR29851700_NA_cns_threshold_0.5_quality_20	SRR29851700	NA	PQ197160.1	6	A/Turkey/MN/24-019077-001-original/2024
+SRR29851700_NP_cns.fa	Consensus_SRR29851700_NP_cns_threshold_0.5_quality_20	SRR29851700	NP	PQ197159.1	5	A/Turkey/MN/24-019077-001-original/2024
+SRR29851700_NS_cns.fa	Consensus_SRR29851700_NS_cns_threshold_0.5_quality_20	SRR29851700	NS	PQ197162.1	8	A/Turkey/MN/24-019077-001-original/2024
+SRR29851700_PA_cns.fa	Consensus_SRR29851700_PA_cns_threshold_0.5_quality_20	SRR29851700	PA	PQ197157.1	3	A/Turkey/MN/24-019077-001-original/2024
+SRR29851700_PB1_cns.fa	Consensus_SRR29851700_PB1_cns_threshold_0.5_quality_20	SRR29851700	PB1	PQ197156.1	2	A/Turkey/MN/24-019077-001-original/2024
+SRR29851700_PB2_cns.fa	Consensus_SRR29851700_PB2_cns_threshold_0.5_quality_20	SRR29851700	PB2	PQ197155.1	1	A/Turkey/MN/24-019077-001-original/2024
