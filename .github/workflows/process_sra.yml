@@ -32,7 +32,7 @@ jobs:
         uses: actions/checkout@v4
       - uses: ./.github/actions/install-dependencies
       - name: Run nextflow
-        run: nextflow run https://github.com/gp201/flusra.git -r 'main' -c ${{ github.workspace }}/config/nextflow.config -profile mamba --only_fetch true --bioproject "PRJNA1102327,PRJNA1122849" --outdir ${{ env.NXF_OUPUT }}
+        run: nextflow run https://github.com/gp201/flusra.git -r 'main' -c ${{ github.workspace }}/config/nextflow.config -profile conda --only_fetch true --bioproject "PRJNA1102327,PRJNA1122849" --outdir ${{ env.NXF_OUPUT }}
       - name: Split SRAs into chunks
         if: ${{ hashFiles('output/metadata/SraRunTable_automated_new.txt') != '' }}
         id: split_sra
@@ -78,7 +78,7 @@ jobs:
           name: chunk_files
           path: ${{ github.workspace }}/sra_chunks/
       - name: Run nextflow
-        run: nextflow run https://github.com/gp201/flusra.git -r 'main' -c ${{ github.workspace }}/config/nextflow.config -profile mamba --sra_accessions ${{ github.workspace }}/sra_chunks/${{ matrix.chunk_file }} --outdir ${{ env.NXF_OUPUT }}
+        run: nextflow run https://github.com/gp201/flusra.git -r 'main' -c ${{ github.workspace }}/config/nextflow.config -profile conda --sra_accessions ${{ github.workspace }}/sra_chunks/${{ matrix.chunk_file }} --outdir ${{ env.NXF_OUPUT }}
       - name: Upload Metadata
         uses: actions/upload-artifact@v4
         with:
