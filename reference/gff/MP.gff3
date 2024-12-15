@@ -1,0 +1,12 @@
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+##sequence-region PP755590.1 1 982
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=11320
+PP755590.1	Genbank	region	1	982	.	+	.	ID=PP755590.1:1..982;Dbxref=taxon:11320;Name=7;collection-date=20-Mar-2024;country=USA;gbkey=Src;isolation-source=milk;mol_type=viral cRNA;nat-host=cattle;segment=7;serotype=H5N1;strain=A/cattle/Texas/24-008749-003/2024
+PP755590.1	Genbank	gene	1	982	.	+	.	ID=gene-M2;Name=M2;gbkey=Gene;gene=M2;gene_biotype=protein_coding
+PP755590.1	Genbank	CDS	1	26	.	+	0	ID=cds-XAJ25417.1;Parent=gene-M2;Dbxref=NCBI_GP:XAJ25417.1;Name=XAJ25417.1;gbkey=CDS;gene=M2;product=matrix protein 2;protein_id=XAJ25417.1
+PP755590.1	Genbank	CDS	715	982	.	+	1	ID=cds-XAJ25417.1;Parent=gene-M2;Dbxref=NCBI_GP:XAJ25417.1;Name=XAJ25417.1;gbkey=CDS;gene=M2;product=matrix protein 2;protein_id=XAJ25417.1
+PP755590.1	Genbank	gene	1	759	.	+	.	ID=gene-M1;Name=M1;gbkey=Gene;gene=M1;gene_biotype=protein_coding
+PP755590.1	Genbank	CDS	1	759	.	+	0	ID=cds-XAJ25416.1;Parent=gene-M1;Dbxref=NCBI_GP:XAJ25416.1;Name=XAJ25416.1;gbkey=CDS;gene=M1;product=matrix protein 1;protein_id=XAJ25416.1
+

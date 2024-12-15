@@ -1,0 +1,12 @@
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+##sequence-region PP755594.1 1 2151
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=11320
+PP755594.1	Genbank	region	1	2151	.	+	.	ID=PP755594.1:1..2151;Dbxref=taxon:11320;Name=3;collection-date=20-Mar-2024;country=USA;gbkey=Src;isolation-source=milk;mol_type=viral cRNA;nat-host=cattle;segment=3;serotype=H5N1;strain=A/cattle/Texas/24-008749-003/2024
+PP755594.1	Genbank	gene	1	2151	.	+	.	ID=gene-PA;Name=PA;gbkey=Gene;gene=PA;gene_biotype=protein_coding
+PP755594.1	Genbank	CDS	1	2151	.	+	0	ID=cds-XAJ25422.1;Parent=gene-PA;Dbxref=NCBI_GP:XAJ25422.1;Name=XAJ25422.1;gbkey=CDS;gene=PA;product=polymerase PA;protein_id=XAJ25422.1
+PP755594.1	Genbank	gene	1	760	.	+	.	ID=gene-PA-X;Name=PA-X;gbkey=Gene;gene=PA-X;gene_biotype=protein_coding
+PP755594.1	Genbank	CDS	1	570	.	+	0	ID=cds-XAJ25423.1;Parent=gene-PA-X;Dbxref=NCBI_GP:XAJ25423.1;Name=XAJ25423.1;exception=ribosomal slippage;gbkey=CDS;gene=PA-X;product=PA-X protein;protein_id=XAJ25423.1
+PP755594.1	Genbank	CDS	572	760	.	+	0	ID=cds-XAJ25423.1;Parent=gene-PA-X;Dbxref=NCBI_GP:XAJ25423.1;Name=XAJ25423.1;exception=ribosomal slippage;gbkey=CDS;gene=PA-X;product=PA-X protein;protein_id=XAJ25423.1
+

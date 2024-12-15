@@ -18,38 +18,51 @@ env:
   NXF_WORK: ${{ github.workspace }}/work
   NXF_OUPUT: ${{ github.workspace }}/output
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  FLUSRA_VERSION: 'gff_support'
+
+defaults:
+  run:
+    shell: bash -el {0}
 
 jobs:
   fetch_sra:
     runs-on: ubuntu-22.04
     outputs:
       chunk_files: ${{ steps.split_sra.outputs.chunk_files }}
-    defaults:
-      run:
-        shell: bash -el {0}
+      chunk_milk_files: ${{ steps.split_sra.outputs.chunk_milk_files }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
       - uses: ./.github/actions/install-dependencies
       - name: Run nextflow
-        run: nextflow run https://github.com/gp201/flusra.git -r 'main' -c ${{ github.workspace }}/config/nextflow.config -profile conda --only_fetch true --bioproject "PRJNA1102327,PRJNA1122849" --outdir ${{ env.NXF_OUPUT }}
+        run: nextflow run https://github.com/gp201/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ github.workspace }}/config/nextflow.config -profile mamba --only_fetch true --bioproject "PRJNA1102327,PRJNA1122849,PRJNA1134696" --outdir ${{ env.NXF_OUPUT }}
       - name: Split SRAs into chunks
         if: ${{ hashFiles('output/metadata/SraRunTable_automated_new.txt') != '' }}
         id: split_sra
         run: |
-          mkdir -p ${{ github.workspace }}/sra_chunks
-          mv ${{ env.NXF_OUPUT }}/metadata/SraRunTable_automated_new.txt ${{ github.workspace }}/sra_chunks/
-          split -l 5  ${{ github.workspace }}/sra_chunks/SraRunTable_automated_new.txt ${{ github.workspace }}/sra_chunks/chunk_
-          rm ${{ github.workspace }}/sra_chunks/SraRunTable_automated_new.txt
-          ls ${{ github.workspace }}/sra_chunks/ > chunk_files.txt
+          mkdir -p ${{ github.workspace }}/sra_chunks/
+          mkdir -p ${{ github.workspace }}/sra_chunks/samples
+          mkdir -p ${{ github.workspace }}/sra_chunks/milk_samples
+          split -l 5 ${{ env.NXF_OUPUT }}/metadata/SraRunTable_automated_new.txt ${{ github.workspace }}/sra_chunks/samples/chunk_
+          split -l 5 ${{ env.NXF_OUPUT }}/metadata/SraRunTable_automated_milk_samples.txt ${{ github.workspace }}/sra_chunks/milk_samples/chunk_milk_
+          ls ${{ github.workspace }}/sra_chunks/samples/ > chunk_files.txt
+          ls ${{ github.workspace }}/sra_chunks/milk_samples/ > chunk_milk_files.txt
           chunk_files=$(cat chunk_files.txt | jq -R . | jq -s . | tr -d '\n' | tr -d " ")
+          chunk_milk_files=$(cat chunk_milk_files.txt | jq -R . | jq -s . | tr -d '\n' | tr -d " ")
           echo "chunk_files=$chunk_files" >> $GITHUB_OUTPUT
+          echo "chunk_milk_files=$chunk_milk_files" >> $GITHUB_OUTPUT
       - name: Upload chunk files
         if: ${{ steps.split_sra.outputs.chunk_files != '' }}
         uses: actions/upload-artifact@v4
         with:
-          name: chunk_files
-          path: ${{ github.workspace }}/sra_chunks/
+          name: sra_chunks
+          path: ${{ github.workspace }}/sra_chunks/samples/
+      - name: Upload chunk files
+        if: ${{ steps.split_sra.outputs.chunk_files != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: milk_chunks
+          path: ${{ github.workspace }}/sra_chunks/milk_samples/
       - name: Upload Metadata
         if: ${{ steps.split_sra.outputs.chunk_files != '' }}
         uses: actions/upload-artifact@v4
@@ -61,9 +74,6 @@ jobs:
     needs: fetch_sra
     if: ${{ needs.fetch_sra.outputs.chunk_files != '' }}
     runs-on: ubuntu-22.04
-    defaults:
-      run:
-        shell: bash -el {0}
     strategy:
       fail-fast: false
       matrix:
@@ -75,11 +85,11 @@ jobs:
       - name: Download chunk files
         uses: actions/download-artifact@v4
         with:
-          name: chunk_files
+          name: sra_chunks
           path: ${{ github.workspace }}/sra_chunks/
       - name: Run nextflow
-        run: nextflow run https://github.com/gp201/flusra.git -r 'main' -c ${{ github.workspace }}/config/nextflow.config -profile conda --sra_accessions ${{ github.workspace }}/sra_chunks/${{ matrix.chunk_file }} --outdir ${{ env.NXF_OUPUT }}
-      - name: Upload Metadata
+        run: nextflow run https://github.com/gp201/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ github.workspace }}/config/nextflow.config -profile mamba --sra_accessions ${{ github.workspace }}/sra_chunks/${{ matrix.chunk_file }} --outdir ${{ env.NXF_OUPUT }}
+      - name: Upload Outputs
         uses: actions/upload-artifact@v4
         with:
           name: files-${{ matrix.chunk_file }}
@@ -94,8 +104,35 @@ jobs:
           name: outputs
           path: |
             /home/runner/ncbi_error_report.txt
+
+  process_milk_samples:
+    needs: fetch_sra
+    if: ${{ needs.fetch_sra.outputs.chunk_milk_files != '' }}
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        chunk_file: ${{fromJson(needs.fetch_sra.outputs.chunk_milk_files)}}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: ./.github/actions/install-dependencies
+      - name: Download chunk files
+        uses: actions/download-artifact@v4
+        with:
+          name: milk_chunks
+          path: ${{ github.workspace }}/milk_chunks/
+      - name: Run nextflow
+        run: nextflow run https://github.com/gp201/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ github.workspace }}/config/nextflow.config -profile mamba --milk_sra_accessions ${{ github.workspace }}/milk_chunks/${{ matrix.chunk_file }} --outdir ${{ env.NXF_OUPUT }}
+      - name: Upload Demixed Outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: files-${{ matrix.chunk_file }}_demixed
+          path: |
+            ${{ env.NXF_OUPUT }}/demixed/
+
   push_files:
-    needs: process_sra
+    needs: [process_sra, process_milk_samples]
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout code
@@ -119,9 +156,13 @@ jobs:
           mv ${{ env.NXF_OUPUT }}/fasta/*.fa ${{ github.workspace }}/fasta/
           mv ${{ env.NXF_OUPUT }}/depth/*.tsv ${{ github.workspace }}/depth/
           mv ${{ env.NXF_OUPUT }}/variants/*.tsv ${{ github.workspace }}/variants/
+          if [ -d ${{ env.NXF_OUPUT }}/demixed/ ]; then
+            mv ${{ env.NXF_OUPUT }}/demixed/ ${{ github.workspace }}/demixed/
+          fi
           git add ${{ github.workspace }}/metadata/SraRunTable_automated.csv
           git add ${{ github.workspace }}/fasta/*.fa
           git add ${{ github.workspace }}/depth/*.tsv
           git add ${{ github.workspace }}/variants/*.tsv
-          git commit -m "Add consensus sequences, depth and variants files and update metadata"
+          git add ${{ github.workspace }}/demixed/
+          git commit -m "Add consensus sequences, depth, variant files, demixed files and updated metadata"
           git push

@@ -24,8 +24,9 @@ runs:
       uses: conda-incubator/setup-miniconda@v3
       with:
         python-version: 3.11
-        channels: conda-forge,bioconda
-        channel-priority: strict
+        mamba-version: "*"
+        channels: conda-forge,bioconda,nodefaults
+        channel-priority: true
         activate-environment: anaconda-client-env
     - name: Setup nextflow
       uses: nf-core/setup-nextflow@v2

@@ -1,0 +1,9 @@
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+##sequence-region PP755592.1 1 1497
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=11320
+PP755592.1	Genbank	region	1	1497	.	+	.	ID=PP755592.1:1..1497;Dbxref=taxon:11320;Name=5;collection-date=20-Mar-2024;country=USA;gbkey=Src;isolation-source=milk;mol_type=viral cRNA;nat-host=cattle;segment=5;serotype=H5N1;strain=A/cattle/Texas/24-008749-003/2024
+PP755592.1	Genbank	gene	1	1497	.	+	.	ID=gene-NP;Name=NP;gbkey=Gene;gene=NP;gene_biotype=protein_coding
+PP755592.1	Genbank	CDS	1	1497	.	+	0	ID=cds-XAJ25419.1;Parent=gene-NP;Dbxref=NCBI_GP:XAJ25419.1;Name=XAJ25419.1;gbkey=CDS;gene=NP;product=nucleocapsid protein;protein_id=XAJ25419.1
+
