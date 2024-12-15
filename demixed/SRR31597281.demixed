@@ -1,0 +1,6 @@
+	SRR31597281_variants.tsv
+summarized	[('Other', 0.9977603890852562)]
+lineages	H5Nx-A.1.16 H5Nx-A.1 H5Nx-A.1.2 H5Nx-A.1.4.3 H5Nx-A.1.14
+abundances	0.49585288 0.49585288 0.00334786 0.00169089 0.00101587
+resid	15.123313661145573
+coverage	85.625
