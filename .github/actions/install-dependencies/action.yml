@@ -7,6 +7,8 @@ runs:
       run: |
         sudo rm -rf /usr/share/dotnet
         sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+        sudo rm -rf /usr/local/lib/android
+        sudo docker image prune --all --force || true
       shell: bash
     - name: Cache envs
       id: cache-envs
@@ -24,8 +26,9 @@ runs:
       uses: conda-incubator/setup-miniconda@v3
       with:
         python-version: 3.11
-        channels: conda-forge,bioconda
-        channel-priority: strict
+        mamba-version: "*"
+        channels: conda-forge,bioconda,nodefaults
+        channel-priority: true
         activate-environment: anaconda-client-env
     - name: Setup nextflow
       uses: nf-core/setup-nextflow@v2

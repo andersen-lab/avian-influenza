@@ -1,0 +1,12 @@
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+##sequence-region PP755589.1 1 1704
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=11320
+PP755589.1	Genbank	region	1	1704	.	+	.	ID=PP755589.1:1..1704;Dbxref=taxon:11320;Name=4;collection-date=20-Mar-2024;country=USA;gbkey=Src;isolation-source=milk;mol_type=viral cRNA;nat-host=cattle;segment=4;serotype=H5N1;strain=A/cattle/Texas/24-008749-003/2024
+PP755589.1	Genbank	gene	1	1704	.	+	.	ID=gene-HA;Name=HA;gbkey=Gene;gene=HA;gene_biotype=protein_coding
+PP755589.1	Genbank	CDS	1	1704	.	+	0	ID=cds-XAJ25415.1;Parent=gene-HA;Dbxref=NCBI_GP:XAJ25415.1;Name=XAJ25415.1;gbkey=CDS;gene=HA;product=hemagglutinin;protein_id=XAJ25415.1
+PP755589.1	Genbank	signal_peptide_region_of_CDS	1	48	.	+	.	ID=id-XAJ25415.1:1..16;Parent=cds-XAJ25415.1;gbkey=Prot
+PP755589.1	Genbank	mature_protein_region_of_CDS	49	1035	.	+	.	ID=id-XAJ25415.1:17..345;Parent=cds-XAJ25415.1;gbkey=Prot;product=HA1
+PP755589.1	Genbank	mature_protein_region_of_CDS	1036	1701	.	+	.	ID=id-XAJ25415.1:346..567;Parent=cds-XAJ25415.1;gbkey=Prot;product=HA2
+
