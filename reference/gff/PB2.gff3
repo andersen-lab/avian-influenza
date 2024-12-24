@@ -1,0 +1,9 @@
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+##sequence-region PP755596.1 1 2280
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=11320
+PP755596.1	Genbank	region	1	2280	.	+	.	ID=PP755596.1:1..2280;Dbxref=taxon:11320;Name=1;collection-date=20-Mar-2024;country=USA;gbkey=Src;isolation-source=milk;mol_type=viral cRNA;nat-host=cattle;segment=1;serotype=H5N1;strain=A/cattle/Texas/24-008749-003/2024
+PP755596.1	Genbank	gene	1	2280	.	+	.	ID=gene-PB2;Name=PB2;gbkey=Gene;gene=PB2;gene_biotype=protein_coding
+PP755596.1	Genbank	CDS	1	2280	.	+	0	ID=cds-XAJ25426.1;Parent=gene-PB2;Dbxref=NCBI_GP:XAJ25426.1;Name=XAJ25426.1;gbkey=CDS;gene=PB2;product=polymerase PB2;protein_id=XAJ25426.1
+
