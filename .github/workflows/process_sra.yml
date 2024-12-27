@@ -18,8 +18,8 @@ env:
   NXF_WORK: ${{ github.workspace }}/work
   NXF_OUPUT: ${{ github.workspace }}/output
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  FLUSRA_VERSION: 'gff_support'
-  FILES_PER_CHUNK: 3
+  FLUSRA_VERSION: 'main'
+  FILES_PER_CHUNK: 5
 
 defaults:
   run:
@@ -59,6 +59,14 @@ jobs:
         with:
           name: metadata
           path: ${{ env.NXF_OUPUT }}/metadata/SraRunTable_automated_updated.csv
+      - name: Upload Nextflow log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failed-run-fetch-sra
+          include-hidden-files: true
+          path: |
+            ${{ github.workspace }}/.nextflow.log
 
   process_sra:
     needs: fetch_sra
@@ -106,13 +114,14 @@ jobs:
         with:
           name: files-demixed-${{ matrix.chunk_file }}
           path: ${{ env.NXF_OUPUT }}/demixed/
-      - name: Upload Artifacts
+      - name: Upload Nextflow log
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: failed-run-${{ matrix.chunk_file }}
+          include-hidden-files: true
           path: |
-            $${{ github.workspace }}/.nextflow.log
+            ${{ github.workspace }}/.nextflow.log
 
   push_files:
     needs: [process_sra]
