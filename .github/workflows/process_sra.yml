@@ -46,9 +46,7 @@ jobs:
           split -l ${{ env.FILES_PER_CHUNK }} ${{ env.NXF_OUPUT }}/metadata/SraRunTable_automated_new.txt ${{ github.workspace }}/sra_chunks/chunk_
           split -l ${{ env.FILES_PER_CHUNK }} ${{ env.NXF_OUPUT }}/metadata/SraRunTable_automated_milk_samples.txt ${{ github.workspace }}/sra_chunks/milk_chunk_
           chunk_files=$(ls ${{ github.workspace }}/sra_chunks/ | jq -R . | jq -s . | tr -d '\n' | tr -d " ")
-          # milk_chunk_files=$(ls ${{ github.workspace }}/sra_chunks/milk_chunk_* | jq -R . | jq -s . | tr -d '\n' | tr -d " ")
           echo "chunk_files=$chunk_files" >> $GITHUB_OUTPUT
-          # echo "milk_chunk_files=$milk_chunk_files" >> $GITHUB_OUTPUT
       - name: Upload chunk files
         if: ${{ steps.split_sra.outputs.chunk_files != '' }}
         uses: actions/upload-artifact@v4
