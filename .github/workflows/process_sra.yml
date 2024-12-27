@@ -20,7 +20,7 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   FLUSRA_VERSION: 'main'
   FILES_PER_CHUNK: 5
-
+  BIOPROJECTS: "PRJNA1102327,PRJNA1122849,PRJNA1134696"
 defaults:
   run:
     shell: bash -el {0}
@@ -36,7 +36,7 @@ jobs:
         uses: actions/checkout@v4
       - uses: ./.github/actions/install-dependencies
       - name: Run nextflow
-        run: nextflow run https://github.com/gp201/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ github.workspace }}/config/nextflow.config -profile mamba --only_fetch true --bioproject "PRJNA1102327,PRJNA1122849,PRJNA1134696" --outdir ${{ env.NXF_OUPUT }}
+        run: nextflow run https://github.com/gp201/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ github.workspace }}/config/nextflow.config -profile mamba --only_fetch true --bioproject ${{ env.BIOPROJECTS }} --outdir ${{ env.NXF_OUPUT }}
       - name: Split SRAs into chunks
         if: ${{ hashFiles('output/metadata/SraRunTable_automated_new.txt') != '' }}
         id: split_sra
