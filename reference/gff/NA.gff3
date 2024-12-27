@@ -1,0 +1,9 @@
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+##sequence-region PP755591.1 1 1410
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=11320
+PP755591.1	Genbank	region	1	1410	.	+	.	ID=PP755591.1:1..1410;Dbxref=taxon:11320;Name=6;collection-date=20-Mar-2024;country=USA;gbkey=Src;isolation-source=milk;mol_type=viral cRNA;nat-host=cattle;segment=6;serotype=H5N1;strain=A/cattle/Texas/24-008749-003/2024
+PP755591.1	Genbank	gene	1	1410	.	+	.	ID=gene-NA;Name=NA;gbkey=Gene;gene=NA;gene_biotype=protein_coding
+PP755591.1	Genbank	CDS	1	1410	.	+	0	ID=cds-XAJ25418.1;Parent=gene-NA;Dbxref=NCBI_GP:XAJ25418.1;Name=XAJ25418.1;gbkey=CDS;gene=NA;product=neuraminidase;protein_id=XAJ25418.1
+

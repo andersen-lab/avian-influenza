@@ -1,0 +1,12 @@
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+##sequence-region PP755593.1 1 838
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=11320
+PP755593.1	Genbank	region	1	838	.	+	.	ID=PP755593.1:1..838;Dbxref=taxon:11320;Name=8;collection-date=20-Mar-2024;country=USA;gbkey=Src;isolation-source=milk;mol_type=viral cRNA;nat-host=cattle;segment=8;serotype=H5N1;strain=A/cattle/Texas/24-008749-003/2024
+PP755593.1	Genbank	gene	1	838	.	+	.	ID=gene-NEP;Name=NEP;gbkey=Gene;gene=NEP;gene_biotype=protein_coding;gene_synonym=NS2
+PP755593.1	Genbank	CDS	1	30	.	+	0	ID=cds-XAJ25421.1;Parent=gene-NEP;Dbxref=NCBI_GP:XAJ25421.1;Name=XAJ25421.1;Note=nonstructural protein 2;gbkey=CDS;gene=NEP;product=nuclear export protein;protein_id=XAJ25421.1
+PP755593.1	Genbank	CDS	503	838	.	+	0	ID=cds-XAJ25421.1;Parent=gene-NEP;Dbxref=NCBI_GP:XAJ25421.1;Name=XAJ25421.1;Note=nonstructural protein 2;gbkey=CDS;gene=NEP;product=nuclear export protein;protein_id=XAJ25421.1
+PP755593.1	Genbank	gene	1	693	.	+	.	ID=gene-NS1;Name=NS1;gbkey=Gene;gene=NS1;gene_biotype=protein_coding
+PP755593.1	Genbank	CDS	1	693	.	+	0	ID=cds-XAJ25420.1;Parent=gene-NS1;Dbxref=NCBI_GP:XAJ25420.1;Name=XAJ25420.1;gbkey=CDS;gene=NS1;product=nonstructural protein 1;protein_id=XAJ25420.1
+
