@@ -156,7 +156,7 @@ jobs:
           mv ${{ env.NXF_OUTPUT }}/depth/*.tsv ${{ github.workspace }}/depth/
           mv ${{ env.NXF_OUTPUT }}/variants/*.tsv ${{ github.workspace }}/variants/
           if [ -d ${{ env.NXF_OUTPUT }}/demixed/ ]; then
-            mv ${{ env.NXF_OUTPUT }}/demixed/ ${{ github.workspace }}/demixed/
+            mv ${{ env.NXF_OUTPUT }}/demixed/* ${{ github.workspace }}/demixed/
             git add ${{ github.workspace }}/demixed/
           fi
           git add ${{ github.workspace }}/metadata/SraRunTable_automated.csv
