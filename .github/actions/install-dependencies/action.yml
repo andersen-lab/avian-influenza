@@ -3,20 +3,19 @@ description: 'Install dependencies for the pipeline'
 runs:
   using: 'composite'
   steps:
-    - name: Free disk space
-      run: |
-        sudo rm -rf /usr/share/dotnet
-        sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-        sudo rm -rf /usr/local/lib/android
-        sudo docker image prune --all --force || true
-      shell: bash
+    # - name: Free disk space
+    #   run: |
+    #     sudo rm -rf /usr/share/dotnet
+    #     sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+    #     sudo rm -rf /usr/local/lib/android
+    #     sudo docker image prune --all --force || true
+      # shell: bash
     - name: Cache envs
       id: cache-envs
       uses: actions/cache@v4
       with:
         path: |
           ${{ env.NXF_WORK }}/conda
-          /opt/hostedtoolcache/nextflow/${{ env.NXF_VER }}
         key: env-${{ env.NXF_VER }}-${{ github.job }}
         restore-keys: |
           env-${{ env.NXF_VER }}-${{ github.job }}

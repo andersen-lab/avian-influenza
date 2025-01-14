@@ -1,0 +1,73 @@
+name: Process Flu SRA (self-hosted)
+run-name: ${{ github.event.inputs.reason || 'Scheduled Run' }}
+on:
+  schedule:
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for running the workflow'
+        required: true
+        default: 'Routine Processing'
+
+concurrency:
+  group: ${{ github.repository }}
+
+env:
+  NXF_VER: "24.10.3"
+  NXF_WORK: ${{ github.workspace }}/work
+  NXF_OUTPUT: ${{ github.workspace }}/outputs
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  FLUSRA_VERSION: 'main'
+  BIOPROJECTS: "PRJNA1102327,PRJNA1122849"
+  TOWER_ACCESS_TOKEN: ${{ secrets.TOWER_ACCESS_TOKEN }}
+defaults:
+  run:
+    shell: bash -el {0}
+
+jobs:
+  process_sra:
+    runs-on: self-hosted
+    permissions:
+        contents: write
+        id-token: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: ./.github/actions/install-dependencies
+      - name: Run nextflow
+        run: nextflow run https://github.com/gp201/flusra.git \
+                -r ${{ env.FLUSRA_VERSION }} \
+                -c ${{ github.workspace }}/config/nextflow.config \
+                -profile mamba \
+                --bioproject ${{ env.BIOPROJECTS }} \
+                --outdir ${{ env.NXF_OUTPUT }} \
+                -name GitHub_$(date +%Y-%m-%d) \
+                -with-tower \
+                -latest
+      - name: Push outputs
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          mv ${{ env.NXF_OUTPUT }}/SraRunTable_automated_updated.csv ${{ github.workspace }}/metadata/SraRunTable_automated.csv
+          mv ${{ env.NXF_OUTPUT }}/fasta/*.fa ${{ github.workspace }}/fasta/
+          mv ${{ env.NXF_OUTPUT }}/depth/*.tsv ${{ github.workspace }}/depth/
+          mv ${{ env.NXF_OUTPUT }}/variants/*.tsv ${{ github.workspace }}/variants/
+          if [ -d ${{ env.NXF_OUTPUT }}/demixed/ ]; then
+            mv ${{ env.NXF_OUTPUT }}/demixed/* ${{ github.workspace }}/demixed/
+            git add ${{ github.workspace }}/demixed/
+          fi
+          git add ${{ github.workspace }}/metadata/SraRunTable_automated.csv
+          git add ${{ github.workspace }}/fasta/*.fa
+          git add ${{ github.workspace }}/depth/*.tsv
+          git add ${{ github.workspace }}/variants/*.tsv
+          git commit -m "Add consensus sequences, depth, variant files, demixed files and updated metadata"
+          git push
+      - name: Upload Nextflow log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failed-run-${{ matrix.chunk_file }}
+          include-hidden-files: true
+          path: |
+            ${{ github.workspace }}/.nextflow.log
