@@ -16,6 +16,7 @@ runs:
       with:
         path: |
           ${{ env.NXF_WORK }}/conda
+          ${{ env.CONDA }}/envs
         key: env-${{ env.NXF_VER }}-${{ github.job }}
         restore-keys: |
           env-${{ env.NXF_VER }}-${{ github.job }}
