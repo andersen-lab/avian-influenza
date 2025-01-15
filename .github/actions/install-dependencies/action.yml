@@ -31,7 +31,6 @@ runs:
         conda-remove-defaults: "true"
         miniforge-version: latest
         channel-priority: true
-        activate-environment: anaconda-client-env
     - name: Setup nextflow
       uses: nf-core/setup-nextflow@v2
       with:
