@@ -36,7 +36,7 @@ jobs:
         uses: actions/checkout@v4
       - uses: ./.github/actions/install-dependencies
       - name: Run nextflow
-        run: nextflow run https://github.com/gp201/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ github.workspace }}/config/nextflow.config -profile mamba --bioproject ${{ env.BIOPROJECTS }} --outdir ${{ env.NXF_OUTPUT }} -name GitHub_$(date +%Y-%m-%d) -with-tower -latest
+        run: nextflow run https://github.com/gp201/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ github.workspace }}/config/nextflow.config -profile mamba --bioproject ${{ env.BIOPROJECTS }} --outdir ${{ env.NXF_OUTPUT }} -name GitHub_$(date +%Y-%m-%d)-${{ github.run_number }} -with-tower -latest
       - name: Push outputs
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
