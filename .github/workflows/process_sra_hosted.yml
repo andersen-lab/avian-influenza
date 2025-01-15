@@ -41,7 +41,7 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          mv ${{ env.NXF_OUTPUT }}/SraRunTable_automated_updated.csv ${{ github.workspace }}/metadata/SraRunTable_automated.csv
+          mv ${{ env.NXF_OUTPUT }}/metadata/SraRunTable_automated_updated.csv ${{ github.workspace }}/metadata/SraRunTable_automated.csv
           mv ${{ env.NXF_OUTPUT }}/fasta/*.fa ${{ github.workspace }}/fasta/
           mv ${{ env.NXF_OUTPUT }}/depth/*.tsv ${{ github.workspace }}/depth/
           mv ${{ env.NXF_OUTPUT }}/variants/*.tsv ${{ github.workspace }}/variants/
