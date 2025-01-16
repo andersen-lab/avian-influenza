@@ -9,6 +9,9 @@ on:
         description: 'Reason for running the workflow'
         required: true
         default: 'Routine Processing'
+      testing:
+        type: boolean
+        description: 'Run in testing mode'
 
 concurrency:
   group: ${{ github.repository }}
@@ -27,6 +30,9 @@ defaults:
 
 jobs:
   process_sra:
+    container:
+      image: ubuntu:24.10
+      options: --cpus 40 --memory 400GB
     runs-on: self-hosted
     permissions:
         contents: write
@@ -54,12 +60,32 @@ jobs:
           git add ${{ github.workspace }}/depth/*.tsv
           git add ${{ github.workspace }}/variants/*.tsv
           git commit -m "Add consensus sequences, depth, variant files, demixed files and updated metadata"
-          git push
+      - name: Push to GitHub
+        if: ${{ !github.event.inputs.testing || github.event_name == 'schedule' }}
+        run: git push
+      - name: Generate Run Summary
+        run: |
+          echo "# Job Summary $(date)" >> $GITHUB_STEP_SUMMARY
+          echo "## Job Information" >> $GITHUB_STEP_SUMMARY
+          echo "Processed $(wc -l ${{ env.NXF_OUTPUT }}/metadata/*_new.txt | tail -n 1 | awk '{print $1}') samples" >> $GITHUB_STEP_SUMMARY
+          echo "<details><summary>Processed SRAs</summary>" >> $GITHUB_STEP_SUMMARY
+          cat ${{ env.NXF_OUTPUT }}/metadata/*_new.txt >> $GITHUB_STEP_SUMMARY
+          echo "</details>" >> $GITHUB_STEP_SUMMARY
+          echo "Processed $(wc -l ${{ env.NXF_OUTPUT }}/metadata/*_milk_samples.txt | tail -n 1 | awk '{print $1}') milk samples" >> $GITHUB_STEP_SUMMARY
+          echo "<details><summary>Processed Milk Samples</summary>" >> $GITHUB_STEP_SUMMARY
+          cat ${{ env.NXF_OUTPUT }}/metadata/*_milk_samples.txt >> $GITHUB_STEP_SUMMARY
+          echo "</details>" >> $GITHUB_STEP_SUMMARY
+          echo "## Workflow diagram" >> $GITHUB_STEP_SUMMARY
+          echo "```mermaid" >> $GITHUB_STEP_SUMMARY
+          # add ${{ env.NXF_OUTPUT }}/pipeline_info/*.mmd
+          cat "${{ env.NXF_OUTPUT }}/pipeline_info/*.mmd" >> $GITHUB_STEP_SUMMARY
+          echo "```" >> $GITHUB_STEP_SUMMARY
+
       - name: Upload Nextflow log
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: failed-run-${{ matrix.chunk_file }}
+          name: failed-run-log
           include-hidden-files: true
           path: |
             ${{ github.workspace }}/.nextflow.log
