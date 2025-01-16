@@ -42,6 +42,7 @@ jobs:
           apt-get install -y ca-certificates git curl wget unzip zip
           update-ca-certificates
       - name: Set Environment Variables
+        # https://github.com/actions/runner/issues/2058
         run: |
           echo "WORKSPACE=$GITHUB_WORKSPACE" >> $GITHUB_ENV
           echo "NXF_OUTPUT=$GITHUB_WORKSPACE/outputs" >> $GITHUB_ENV
