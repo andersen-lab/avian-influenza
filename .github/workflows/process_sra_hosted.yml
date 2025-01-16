@@ -18,8 +18,6 @@ concurrency:
 
 env:
   NXF_VER: "24.10.3"
-  NXF_WORK: ${{ GITHUB_WORKSPACE }}/work
-  NXF_OUTPUT: ${{ GITHUB_WORKSPACE }}/outputs
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   FLUSRA_VERSION: 'main'
   BIOPROJECTS: "PRJNA1102327,PRJNA1122849,PRJNA1134696"
@@ -43,27 +41,33 @@ jobs:
           apt-get update
           apt-get install -y ca-certificates git curl wget unzip zip
           update-ca-certificates
+      - name: Set Environment Variables
+        # https://github.com/actions/runner/issues/2058
+        run: |
+          echo "WORKSPACE=$GITHUB_WORKSPACE" >> $GITHUB_ENV
+          echo "NXF_OUTPUT=$GITHUB_WORKSPACE/outputs" >> $GITHUB_ENV
+          echo "NXF_WORK=$GITHUB_WORKSPACE/work" >> $GITHUB_ENV
       - name: Checkout code
         uses: actions/checkout@v4
       - uses: ./.github/actions/install-dependencies
       - name: Run nextflow
-        run: nextflow run https://github.com/gp201/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ GITHUB_WORKSPACE }}/config/nextflow.config -profile mamba --bioproject ${{ env.BIOPROJECTS }} --outdir ${{ env.NXF_OUTPUT }} -name GitHub_$(date +%Y-%m-%d)-${{ github.run_number }} -with-tower -latest
+        run: nextflow run https://github.com/gp201/flusra.git -r ${{ env.FLUSRA_VERSION }} -c $WORKSPACE/config/nextflow.config -profile mamba --bioproject ${{ env.BIOPROJECTS }} --outdir $NXF_OUTPUT -name GitHub_$(date +%Y-%m-%d)-${{ github.run_number }} -with-tower -latest
       - name: Push outputs
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          mv ${{ env.NXF_OUTPUT }}/metadata/SraRunTable_automated_updated.csv ${{ GITHUB_WORKSPACE }}/metadata/SraRunTable_automated.csv
-          mv ${{ env.NXF_OUTPUT }}/fasta/*.fa ${{ GITHUB_WORKSPACE }}/fasta/
-          mv ${{ env.NXF_OUTPUT }}/depth/*.tsv ${{ GITHUB_WORKSPACE }}/depth/
-          mv ${{ env.NXF_OUTPUT }}/variants/*.tsv ${{ GITHUB_WORKSPACE }}/variants/
-          if [ -d ${{ env.NXF_OUTPUT }}/demixed/ ]; then
-            mv ${{ env.NXF_OUTPUT }}/demixed/* ${{ GITHUB_WORKSPACE }}/demixed/
-            git add ${{ GITHUB_WORKSPACE }}/demixed/
+          mv $NXF_OUTPUT/metadata/SraRunTable_automated_updated.csv $WORKSPACE/metadata/SraRunTable_automated.csv
+          mv $NXF_OUTPUT/fasta/*.fa $WORKSPACE/fasta/
+          mv $NXF_OUTPUT/depth/*.tsv $WORKSPACE/depth/
+          mv $NXF_OUTPUT/variants/*.tsv $WORKSPACE/variants/
+          if [ -d $NXF_OUTPUT/demixed/ ]; then
+            mv $NXF_OUTPUT/demixed/* $WORKSPACE/demixed/
+            git add $WORKSPACE/demixed/
           fi
-          git add ${{ GITHUB_WORKSPACE }}/metadata/SraRunTable_automated.csv
-          git add ${{ GITHUB_WORKSPACE }}/fasta/*.fa
-          git add ${{ GITHUB_WORKSPACE }}/depth/*.tsv
-          git add ${{ GITHUB_WORKSPACE }}/variants/*.tsv
+          git add $WORKSPACE/metadata/SraRunTable_automated.csv
+          git add $WORKSPACE/fasta/*.fa
+          git add $WORKSPACE/depth/*.tsv
+          git add $WORKSPACE/variants/*.tsv
           git commit -m "Add consensus sequences, depth, variant files, demixed files and updated metadata"
       - name: Push to GitHub
         if: ${{ !github.event.inputs.testing || github.event_name == 'schedule' }}
@@ -72,18 +76,18 @@ jobs:
         run: |
           echo "# Job Summary $(date)" >> $GITHUB_STEP_SUMMARY
           echo "## Job Information" >> $GITHUB_STEP_SUMMARY
-          echo "Processed $(wc -l ${{ env.NXF_OUTPUT }}/metadata/*_new.txt | tail -n 1 | awk '{print $1}') samples" >> $GITHUB_STEP_SUMMARY
+          echo "Processed $(wc -l $NXF_OUTPUT/metadata/*_new.txt | tail -n 1 | awk '{print $1}') samples" >> $GITHUB_STEP_SUMMARY
           echo "<details><summary>Processed SRAs</summary>" >> $GITHUB_STEP_SUMMARY
-          cat ${{ env.NXF_OUTPUT }}/metadata/*_new.txt >> $GITHUB_STEP_SUMMARY
+          cat $NXF_OUTPUT/metadata/*_new.txt >> $GITHUB_STEP_SUMMARY
           echo "</details>" >> $GITHUB_STEP_SUMMARY
-          echo "Processed $(wc -l ${{ env.NXF_OUTPUT }}/metadata/*_milk_samples.txt | tail -n 1 | awk '{print $1}') milk samples" >> $GITHUB_STEP_SUMMARY
+          echo "Processed $(wc -l $NXF_OUTPUT/metadata/*_milk_samples.txt | tail -n 1 | awk '{print $1}') milk samples" >> $GITHUB_STEP_SUMMARY
           echo "<details><summary>Processed Milk Samples</summary>" >> $GITHUB_STEP_SUMMARY
-          cat ${{ env.NXF_OUTPUT }}/metadata/*_milk_samples.txt >> $GITHUB_STEP_SUMMARY
+          cat $NXF_OUTPUT/metadata/*_milk_samples.txt >> $GITHUB_STEP_SUMMARY
           echo "</details>" >> $GITHUB_STEP_SUMMARY
           echo "## Workflow diagram" >> $GITHUB_STEP_SUMMARY
           echo "```mermaid" >> $GITHUB_STEP_SUMMARY
-          # add ${{ env.NXF_OUTPUT }}/pipeline_info/*.mmd
-          cat "${{ env.NXF_OUTPUT }}/pipeline_info/*.mmd" >> $GITHUB_STEP_SUMMARY
+          # add $NXF_OUTPUT/pipeline_info/*.mmd
+          cat "$NXF_OUTPUT/pipeline_info/*.mmd" >> $GITHUB_STEP_SUMMARY
           echo "```" >> $GITHUB_STEP_SUMMARY
 
       - name: Upload Nextflow log
@@ -93,4 +97,4 @@ jobs:
           name: failed-run-log
           include-hidden-files: true
           path: |
-            ${{ GITHUB_WORKSPACE }}/.nextflow.log
+            $WORKSPACE/.nextflow.log
