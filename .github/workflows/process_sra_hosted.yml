@@ -18,8 +18,8 @@ concurrency:
 
 env:
   NXF_VER: "24.10.3"
-  NXF_WORK: ${{ github.workspace }}/work
-  NXF_OUTPUT: ${{ github.workspace }}/outputs
+  NXF_WORK: ${{ GITHUB_WORKSPACE }}/work
+  NXF_OUTPUT: ${{ GITHUB_WORKSPACE }}/outputs
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   FLUSRA_VERSION: 'main'
   BIOPROJECTS: "PRJNA1102327,PRJNA1122849,PRJNA1134696"
@@ -47,23 +47,23 @@ jobs:
         uses: actions/checkout@v4
       - uses: ./.github/actions/install-dependencies
       - name: Run nextflow
-        run: nextflow run https://github.com/gp201/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ github.workspace }}/config/nextflow.config -profile mamba --bioproject ${{ env.BIOPROJECTS }} --outdir ${{ env.NXF_OUTPUT }} -name GitHub_$(date +%Y-%m-%d)-${{ github.run_number }} -with-tower -latest
+        run: nextflow run https://github.com/gp201/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ GITHUB_WORKSPACE }}/config/nextflow.config -profile mamba --bioproject ${{ env.BIOPROJECTS }} --outdir ${{ env.NXF_OUTPUT }} -name GitHub_$(date +%Y-%m-%d)-${{ github.run_number }} -with-tower -latest
       - name: Push outputs
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          mv ${{ env.NXF_OUTPUT }}/metadata/SraRunTable_automated_updated.csv ${{ github.workspace }}/metadata/SraRunTable_automated.csv
-          mv ${{ env.NXF_OUTPUT }}/fasta/*.fa ${{ github.workspace }}/fasta/
-          mv ${{ env.NXF_OUTPUT }}/depth/*.tsv ${{ github.workspace }}/depth/
-          mv ${{ env.NXF_OUTPUT }}/variants/*.tsv ${{ github.workspace }}/variants/
+          mv ${{ env.NXF_OUTPUT }}/metadata/SraRunTable_automated_updated.csv ${{ GITHUB_WORKSPACE }}/metadata/SraRunTable_automated.csv
+          mv ${{ env.NXF_OUTPUT }}/fasta/*.fa ${{ GITHUB_WORKSPACE }}/fasta/
+          mv ${{ env.NXF_OUTPUT }}/depth/*.tsv ${{ GITHUB_WORKSPACE }}/depth/
+          mv ${{ env.NXF_OUTPUT }}/variants/*.tsv ${{ GITHUB_WORKSPACE }}/variants/
           if [ -d ${{ env.NXF_OUTPUT }}/demixed/ ]; then
-            mv ${{ env.NXF_OUTPUT }}/demixed/* ${{ github.workspace }}/demixed/
-            git add ${{ github.workspace }}/demixed/
+            mv ${{ env.NXF_OUTPUT }}/demixed/* ${{ GITHUB_WORKSPACE }}/demixed/
+            git add ${{ GITHUB_WORKSPACE }}/demixed/
           fi
-          git add ${{ github.workspace }}/metadata/SraRunTable_automated.csv
-          git add ${{ github.workspace }}/fasta/*.fa
-          git add ${{ github.workspace }}/depth/*.tsv
-          git add ${{ github.workspace }}/variants/*.tsv
+          git add ${{ GITHUB_WORKSPACE }}/metadata/SraRunTable_automated.csv
+          git add ${{ GITHUB_WORKSPACE }}/fasta/*.fa
+          git add ${{ GITHUB_WORKSPACE }}/depth/*.tsv
+          git add ${{ GITHUB_WORKSPACE }}/variants/*.tsv
           git commit -m "Add consensus sequences, depth, variant files, demixed files and updated metadata"
       - name: Push to GitHub
         if: ${{ !github.event.inputs.testing || github.event_name == 'schedule' }}
@@ -93,4 +93,4 @@ jobs:
           name: failed-run-log
           include-hidden-files: true
           path: |
-            ${{ github.workspace }}/.nextflow.log
+            ${{ GITHUB_WORKSPACE }}/.nextflow.log
