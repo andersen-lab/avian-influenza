@@ -49,6 +49,8 @@ jobs:
           echo "NXF_WORK=$GITHUB_WORKSPACE/work" >> $GITHUB_ENV
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: Set repository as safe
+        run: git config --global --add safe.directory $WORKSPACE
       - uses: ./.github/actions/install-dependencies
       - name: Run nextflow
         run: nextflow run https://github.com/gp201/flusra.git -r ${{ env.FLUSRA_VERSION }} -c $WORKSPACE/config/nextflow.config -profile mamba --bioproject ${{ env.BIOPROJECTS }} --outdir $NXF_OUTPUT -name GitHub_$(date +%Y-%m-%d)-${{ github.run_number }} -with-tower -latest
@@ -70,7 +72,7 @@ jobs:
           git add $WORKSPACE/variants/*.tsv
           git commit -m "Add consensus sequences, depth, variant files, demixed files and updated metadata"
       - name: Push to GitHub
-        if: ${{ !github.event.inputs.testing || github.event_name == 'schedule' }}
+        if: ${{ github.event.inputs.testing != 'true' || github.event_name == 'schedule' }}
         run: git push
       - name: Generate Run Summary
         run: |
