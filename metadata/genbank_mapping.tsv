@@ -1494,20 +1494,28 @@ SRR28752634_PB1_cns.fa	Consensus_SRR28752634_PB1_cns_threshold_0.5_quality_20	SR
 SRR28752634_PB2_cns.fa	Consensus_SRR28752634_PB2_cns_threshold_0.5_quality_20	SRR28752634	PB2	PQ011688.1	1	A/Cattle/New Mexico/24-010330-002-original-300/2024
 SRR28752635_HA_cns.fa	Consensus_SRR28752635_HA_cns_threshold_0.5_quality_20	SRR28752635	HA	PP755589.1	4	A/cattle/Texas/24-008749-003/2024
 SRR28752635_HA_cns.fa	Consensus_SRR28752635_HA_cns_threshold_0.5_quality_20	SRR28752635	HA	PQ832525.1	4	A/cattle/TX/24-008749-003-original/2024
+SRR28752635_HA_cns.fa	Consensus_SRR28752635_HA_cns_threshold_0.5_quality_20	SRR28752635	HA	PQ898033.1	4	A/dairy cattle/Texas/24-008749-003-recombinant/2024
 SRR28752635_MP_cns.fa	Consensus_SRR28752635_MP_cns_threshold_0.5_quality_20	SRR28752635	MP	PP755590.1	7	A/cattle/Texas/24-008749-003/2024
 SRR28752635_MP_cns.fa	Consensus_SRR28752635_MP_cns_threshold_0.5_quality_20	SRR28752635	MP	PQ832528.1	7	A/cattle/TX/24-008749-003-original/2024
+SRR28752635_MP_cns.fa	Consensus_SRR28752635_MP_cns_threshold_0.5_quality_20	SRR28752635	MP	PQ898035.1	7	A/dairy cattle/Texas/24-008749-003-recombinant/2024
 SRR28752635_NA_cns.fa	Consensus_SRR28752635_NA_cns_threshold_0.5_quality_20	SRR28752635	NA	PP755591.1	6	A/cattle/Texas/24-008749-003/2024
 SRR28752635_NA_cns.fa	Consensus_SRR28752635_NA_cns_threshold_0.5_quality_20	SRR28752635	NA	PQ832527.1	6	A/cattle/TX/24-008749-003-original/2024
+SRR28752635_NA_cns.fa	Consensus_SRR28752635_NA_cns_threshold_0.5_quality_20	SRR28752635	NA	PQ898034.1	6	A/dairy cattle/Texas/24-008749-003-recombinant/2024
 SRR28752635_NP_cns.fa	Consensus_SRR28752635_NP_cns_threshold_0.5_quality_20	SRR28752635	NP	PP755592.1	5	A/cattle/Texas/24-008749-003/2024
 SRR28752635_NP_cns.fa	Consensus_SRR28752635_NP_cns_threshold_0.5_quality_20	SRR28752635	NP	PQ832526.1	5	A/cattle/TX/24-008749-003-original/2024
+SRR28752635_NP_cns.fa	Consensus_SRR28752635_NP_cns_threshold_0.5_quality_20	SRR28752635	NP	PQ898032.1	5	A/dairy cattle/Texas/24-008749-003-recombinant/2024
 SRR28752635_NS_cns.fa	Consensus_SRR28752635_NS_cns_threshold_0.5_quality_20	SRR28752635	NS	PP755593.1	8	A/cattle/Texas/24-008749-003/2024
 SRR28752635_NS_cns.fa	Consensus_SRR28752635_NS_cns_threshold_0.5_quality_20	SRR28752635	NS	PQ832529.1	8	A/cattle/TX/24-008749-003-original/2024
+SRR28752635_NS_cns.fa	Consensus_SRR28752635_NS_cns_threshold_0.5_quality_20	SRR28752635	NS	PQ898036.1	8	A/dairy cattle/Texas/24-008749-003-recombinant/2024
 SRR28752635_PA_cns.fa	Consensus_SRR28752635_PA_cns_threshold_0.5_quality_20	SRR28752635	PA	PP755594.1	3	A/cattle/Texas/24-008749-003/2024
 SRR28752635_PA_cns.fa	Consensus_SRR28752635_PA_cns_threshold_0.5_quality_20	SRR28752635	PA	PQ832524.1	3	A/cattle/TX/24-008749-003-original/2024
+SRR28752635_PA_cns.fa	Consensus_SRR28752635_PA_cns_threshold_0.5_quality_20	SRR28752635	PA	PQ898031.1	3	A/dairy cattle/Texas/24-008749-003-recombinant/2024
 SRR28752635_PB1_cns.fa	Consensus_SRR28752635_PB1_cns_threshold_0.5_quality_20	SRR28752635	PB1	PP755595.1	2	A/cattle/Texas/24-008749-003/2024
 SRR28752635_PB1_cns.fa	Consensus_SRR28752635_PB1_cns_threshold_0.5_quality_20	SRR28752635	PB1	PQ832523.1	2	A/cattle/TX/24-008749-003-original/2024
+SRR28752635_PB1_cns.fa	Consensus_SRR28752635_PB1_cns_threshold_0.5_quality_20	SRR28752635	PB1	PQ898030.1	2	A/dairy cattle/Texas/24-008749-003-recombinant/2024
 SRR28752635_PB2_cns.fa	Consensus_SRR28752635_PB2_cns_threshold_0.5_quality_20	SRR28752635	PB2	PP755596.1	1	A/cattle/Texas/24-008749-003/2024
 SRR28752635_PB2_cns.fa	Consensus_SRR28752635_PB2_cns_threshold_0.5_quality_20	SRR28752635	PB2	PQ832522.1	1	A/cattle/TX/24-008749-003-original/2024
+SRR28752635_PB2_cns.fa	Consensus_SRR28752635_PB2_cns_threshold_0.5_quality_20	SRR28752635	PB2	PQ898029.1	1	A/dairy cattle/Texas/24-008749-003-recombinant/2024
 SRR28752636_HA_cns.fa	Consensus_SRR28752636_HA_cns_threshold_0.5_quality_20	SRR28752636	HA	PP755406.1	4	A/Peregrine falcon/California/24-005915-001/2024
 SRR28752636_HA_cns.fa	Consensus_SRR28752636_HA_cns_threshold_0.5_quality_20	SRR28752636	HA	PQ827805.1	4	A/Peregrine Falcon/CA/24-005915-001-original/2024
 SRR28752636_MP_cns.fa	Consensus_SRR28752636_MP_cns_threshold_0.5_quality_20	SRR28752636	MP	PP755407.1	7	A/Peregrine falcon/California/24-005915-001/2024
