@@ -1,0 +1,15 @@
+# config.yaml
+
+PRJNA1134696:
+  global_trimming:
+    front1: 30
+    tail1: 0
+    front2: 30
+    tail2: 0
+
+default:
+  global_trimming:
+    front1: 30
+    tail1: 0
+    front2: 30
+    tail2: 0
