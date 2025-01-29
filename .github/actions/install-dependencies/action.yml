@@ -3,13 +3,14 @@ description: 'Install dependencies for the pipeline'
 runs:
   using: 'composite'
   steps:
-    # - name: Free disk space
-    #   run: |
-    #     sudo rm -rf /usr/share/dotnet
-    #     sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-    #     sudo rm -rf /usr/local/lib/android
-    #     sudo docker image prune --all --force || true
-      # shell: bash
+    - name: Free disk space
+      if: runner.environment == 'github-hosted'
+      run: |
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+        sudo rm -rf /usr/local/lib/android
+        sudo docker image prune --all --force || true
+      shell: bash
     - name: Cache envs
       id: cache-envs
       uses: actions/cache@v4
@@ -23,6 +24,7 @@ runs:
           env-${{ env.NXF_VER }}
           env-
     - name: Setup for conda
+      if: runner.environment == 'github-hosted'
       uses: conda-incubator/setup-miniconda@v3
       with:
         python-version: 3.11
@@ -32,6 +34,7 @@ runs:
         miniforge-version: latest
         channel-priority: true
     - name: Setup nextflow
+      if: runner.environment == 'github-hosted'
       uses: nf-core/setup-nextflow@v2
       with:
         version: ${{ env.NXF_VER }}
