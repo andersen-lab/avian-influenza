@@ -17,7 +17,7 @@ concurrency:
   group: ${{ github.repository }}
 
 env:
-  NXF_VER: "24.10.3"
+  NXF_VER: "24.10.4"
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   FLUSRA_VERSION: 'main'
   BIOPROJECTS: "PRJNA1102327,PRJNA1122849,PRJNA1134696"
@@ -31,7 +31,7 @@ jobs:
   process_sra:
     container:
       image: ubuntu:24.10
-      options: --cpus 40 --memory 400GB
+      options: --cpus 40 --memory-reservation 400GB
     runs-on: self-hosted
     permissions:
         contents: write
