@@ -18,6 +18,8 @@ concurrency:
 
 env:
   NXF_VER: "24.10.4"
+  NXF_WORK: ${{ github.workspace }}/work
+  NXF_OUTPUT: ${{ github.workspace }}/outputs
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   FLUSRA_VERSION: 'main'
   BIOPROJECTS: "PRJNA1102327,PRJNA1122849,PRJNA1134696"
@@ -29,48 +31,32 @@ defaults:
 
 jobs:
   process_sra:
-    container:
-      image: ubuntu:24.10
-      options: --cpus 40 --memory-reservation 400GB
     runs-on: self-hosted
     permissions:
         contents: write
         id-token: write
     steps:
-      - name: Install and update certificates
-        run: |
-          apt-get update
-          apt-get install -y ca-certificates git curl wget unzip zip
-          update-ca-certificates
-      - name: Set Environment Variables
-        # https://github.com/actions/runner/issues/2058
-        run: |
-          echo "WORKSPACE=$GITHUB_WORKSPACE" >> $GITHUB_ENV
-          echo "NXF_OUTPUT=$GITHUB_WORKSPACE/outputs" >> $GITHUB_ENV
-          echo "NXF_WORK=$GITHUB_WORKSPACE/work" >> $GITHUB_ENV
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Set repository as safe
-        run: git config --global --add safe.directory $WORKSPACE
       - uses: ./.github/actions/install-dependencies
       - name: Run nextflow
-        run: nextflow run https://github.com/gp201/flusra.git -r ${{ env.FLUSRA_VERSION }} -c $WORKSPACE/config/nextflow.config -profile mamba --bioproject ${{ env.BIOPROJECTS }} --outdir $NXF_OUTPUT -name GitHub_$(date +%Y-%m-%d)-${{ github.run_number }} -with-tower -latest
+        run: nextflow run https://github.com/gp201/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ github.workspace }}/config/nextflow.config -profile mamba --bioproject ${{ env.BIOPROJECTS }} --outdir $NXF_OUTPUT -name GitHub_$(date +%Y-%m-%d)-${{ github.run_number }} -with-tower -latest
       - name: Push outputs
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          mv $NXF_OUTPUT/metadata/SraRunTable_automated_updated.csv $WORKSPACE/metadata/SraRunTable_automated.csv
-          mv $NXF_OUTPUT/fasta/*.fa $WORKSPACE/fasta/
-          mv $NXF_OUTPUT/depth/*.tsv $WORKSPACE/depth/
-          mv $NXF_OUTPUT/variants/*.tsv $WORKSPACE/variants/
+          mv $NXF_OUTPUT/metadata/SraRunTable_automated_updated.csv ${{ github.workspace }}/metadata/SraRunTable_automated.csv
+          mv $NXF_OUTPUT/fasta/*.fa ${{ github.workspace }}/fasta/
+          mv $NXF_OUTPUT/depth/*.tsv ${{ github.workspace }}/depth/
+          mv $NXF_OUTPUT/variants/*.tsv ${{ github.workspace }}/variants/
           if [ -d $NXF_OUTPUT/demixed/ ]; then
-            mv $NXF_OUTPUT/demixed/* $WORKSPACE/demixed/
-            git add $WORKSPACE/demixed/
+            mv $NXF_OUTPUT/demixed/* ${{ github.workspace }}/demixed/
+            git add ${{ github.workspace }}/demixed/
           fi
-          git add $WORKSPACE/metadata/SraRunTable_automated.csv
-          git add $WORKSPACE/fasta/*.fa
-          git add $WORKSPACE/depth/*.tsv
-          git add $WORKSPACE/variants/*.tsv
+          git add ${{ github.workspace }}/metadata/SraRunTable_automated.csv
+          git add ${{ github.workspace }}/fasta/*.fa
+          git add ${{ github.workspace }}/depth/*.tsv
+          git add ${{ github.workspace }}/variants/*.tsv
           git commit -m "Add consensus sequences, depth, variant files, demixed files and updated metadata"
       - name: Push to GitHub
         if: ${{ github.event.inputs.testing != 'true' || github.event_name == 'schedule' }}
@@ -92,12 +78,10 @@ jobs:
           # add $NXF_OUTPUT/pipeline_info/*.mmd
           cat "$NXF_OUTPUT/pipeline_info/*.mmd" >> $GITHUB_STEP_SUMMARY
           echo "```" >> $GITHUB_STEP_SUMMARY
-
       - name: Upload Nextflow log
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: failed-run-log
           include-hidden-files: true
-          path: |
-            $WORKSPACE/.nextflow.log
+          path: ${{ github.workspace }}/.nextflow.log
