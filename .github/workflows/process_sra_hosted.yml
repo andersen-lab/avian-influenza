@@ -20,6 +20,7 @@ env:
   NXF_VER: "24.10.4"
   NXF_WORK: ${{ github.workspace }}/work
   NXF_OUTPUT: ${{ github.workspace }}/outputs
+  NXF_NAME: GitHub_$(date +%Y-%m-%d)-${{ github.run_number }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   FLUSRA_VERSION: 'main'
   BIOPROJECTS: "PRJNA1102327,PRJNA1122849,PRJNA1134696"
@@ -27,7 +28,7 @@ env:
   TOWER_WORKSPACE_ID: ${{ secrets.TOWER_WORKSPACE_ID }}
 defaults:
   run:
-    shell: bash -el {0}
+    shell: bash -eli {0}
 
 jobs:
   process_sra:
@@ -40,7 +41,7 @@ jobs:
         uses: actions/checkout@v4
       - uses: ./.github/actions/install-dependencies
       - name: Run nextflow
-        run: nextflow run https://github.com/gp201/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ github.workspace }}/config/nextflow.config -profile mamba --bioproject ${{ env.BIOPROJECTS }} --outdir $NXF_OUTPUT -name GitHub_$(date +%Y-%m-%d)-${{ github.run_number }} -with-tower -latest
+        run: nextflow run https://github.com/gp201/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ github.workspace }}/config/nextflow.config -profile mamba --bioproject ${{ env.BIOPROJECTS }} --outdir $NXF_OUTPUT -name $NXF_NAME -with-tower -latest
       - name: Push outputs
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -85,3 +86,6 @@ jobs:
           name: failed-run-log
           include-hidden-files: true
           path: ${{ github.workspace }}/.nextflow.log
+      - name: Clean Nextflow Run
+        if: always()
+        run: nextflow clean $NXF_NAME
