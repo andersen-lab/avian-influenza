@@ -20,7 +20,7 @@ env:
   NXF_VER: "24.10.4"
   NXF_WORK: ${{ github.workspace }}/work
   NXF_OUTPUT: ${{ github.workspace }}/outputs
-  NXF_NAME: GitHub_$(date +%Y-%m-%d)-${{ github.run_number }}
+  NXF_NAME: github-${{ github.run_number }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   FLUSRA_VERSION: 'main'
   BIOPROJECTS: "PRJNA1102327,PRJNA1122849,PRJNA1134696"
