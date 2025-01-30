@@ -68,8 +68,8 @@ jobs:
         run: |
           echo "# Job Summary $(date)" >> $GITHUB_STEP_SUMMARY
           echo "## Job Information" >> $GITHUB_STEP_SUMMARY
-          samples=$(awk -F'\t' '$2 == "True" { print $1 }' *_to_process.tsv | wc -l)
-          milk=$(awk -F"\t" '$3 == "True" { print $1 }' *_to_process.tsv)
+          samples=$(awk -F'\t' '$2 == "True" { print $1 }' outputs/metadata/*_to_process.tsv | wc -l)
+          milk=$(awk -F"\t" '$3 == "True" { print $1 }' outputs/metadata/*_to_process.tsv)
           echo "Processed $(echo "$samples" | wc -l) samples" >> $GITHUB_STEP_SUMMARY
           echo "<details><summary>Processed SRAs</summary>" >> $GITHUB_STEP_SUMMARY
           echo "$samples" >> $GITHUB_STEP_SUMMARY
@@ -79,8 +79,8 @@ jobs:
           echo "$milk" >> $GITHUB_STEP_SUMMARY
           echo "</details>" >> $GITHUB_STEP_SUMMARY
           echo "## Workflow diagram" >> $GITHUB_STEP_SUMMARY
-          echo "```mermaid" >> $GITHUB_STEP_SUMMARY${{ env.NXF_OUTPUT }}
-          cat "${{ env.NXF_OUTPUT }}/pipeline_info/*.mmd" >> $GITHUB_STEP_SUMMARY
+          echo "```mermaid" >> $GITHUB_STEP_SUMMARY
+          cat "outputs/pipeline_info/*.mmd" >> $GITHUB_STEP_SUMMARY
           echo "```" >> $GITHUB_STEP_SUMMARY
       - name: Upload Nextflow log
         if: failure()
