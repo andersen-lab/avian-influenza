@@ -43,7 +43,7 @@ jobs:
       - name: Run nextflow
         run: nextflow run https://github.com/gp201/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ github.workspace }}/config/nextflow.config -profile mamba --bioproject ${{ env.BIOPROJECTS }} --outdir ${{ env.NXF_OUTPUT }} -name ${{ env.NXF_NAME }} -with-tower -latest
       - name: Push outputs
-        if: ${{ hashFiles('${{ env.NXF_OUTPUT }}/metadata/') != '' }}
+        if: ${{ hashFiles('outputs/metadata/*.tsv') != '' }}
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
@@ -64,8 +64,7 @@ jobs:
         if: ${{ github.event.inputs.testing != 'true' || github.event_name == 'schedule' }}
         run: git push
       - name: Generate Run Summary
-        working-directory: ${{ env.NXF_OUTPUT }}
-        if: ${{ hashFiles('${{ env.NXF_OUTPUT }}/metadata/') != '' }}
+        if: ${{ hashFiles('outputs/metadata/*.tsv') != '' }}
         run: |
           echo "# Job Summary $(date)" >> $GITHUB_STEP_SUMMARY
           echo "## Job Information" >> $GITHUB_STEP_SUMMARY
