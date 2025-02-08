@@ -2,7 +2,7 @@ name: Map to GenBank Sequences
 run-name: ${{ github.event.inputs.reason || 'Scheduled Run' }}
 on:
   schedule:
-    - cron: '0 18 * * *'
+    - cron: '15 1 * * *'
   workflow_dispatch:
     inputs:
       reason:
