@@ -76,10 +76,12 @@ jobs:
           echo "<details><summary>Processed $(echo "$milk" | wc -l) milk samples</summary>" >> $GITHUB_STEP_SUMMARY
           printf '%s\n' "$milk" >> $GITHUB_STEP_SUMMARY
           echo "</details>" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
           echo "## Workflow diagram" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`mermaid" >> $GITHUB_STEP_SUMMARY
           cat outputs/pipeline_info/*.mmd >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
       - name: Upload Nextflow log
         if: failure()
         uses: actions/upload-artifact@v4
