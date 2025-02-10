@@ -43,22 +43,30 @@ jobs:
       - name: Run nextflow
         run: nextflow run https://github.com/gp201/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ github.workspace }}/config/nextflow.config -profile mamba --bioproject ${{ env.BIOPROJECTS }} --outdir ${{ env.NXF_OUTPUT }} -name ${{ env.NXF_NAME }} -with-tower -latest
       - name: Push outputs
-        if: ${{ hashFiles('outputs/metadata/*.tsv') != '' }}
         run: |
+          # Configure Git
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          mv ${{ env.NXF_OUTPUT }}/metadata/SraRunTable_automated_updated.csv ${{ github.workspace }}/metadata/SraRunTable_automated.csv
-          mv ${{ env.NXF_OUTPUT }}/fasta/*.fa ${{ github.workspace }}/fasta/
-          mv ${{ env.NXF_OUTPUT }}/depth/*.tsv ${{ github.workspace }}/depth/
-          mv ${{ env.NXF_OUTPUT }}/variants/*.tsv ${{ github.workspace }}/variants/
-          if [ -d ${{ env.NXF_OUTPUT }}/demixed/ ]; then
-            mv ${{ env.NXF_OUTPUT }}/demixed/* ${{ github.workspace }}/demixed/
-            git add ${{ github.workspace }}/demixed/
+
+          # Move updated metadata
+          mv "${{ env.NXF_OUTPUT }}/metadata/SraRunTable_automated_updated.csv" "${{ github.workspace }}/metadata/SraRunTable_automated.csv"
+
+          # Process fasta, depth, and variants directories in a loop
+          for dir in fasta depth variants; do
+            if [ -d "${{ env.NXF_OUTPUT }}/$dir/" ]; then
+              mv "${{ env.NXF_OUTPUT }}/$dir/"* "${{ github.workspace }}/$dir/"
+              git add "${{ github.workspace }}/$dir/"
+            fi
+          done
+
+          # Process demixed directory
+          if [ -d "${{ env.NXF_OUTPUT }}/demixed/" ]; then
+            mv "${{ env.NXF_OUTPUT }}/demixed/"* "${{ github.workspace }}/demixed/"
+            git add "${{ github.workspace }}/demixed/"
           fi
-          git add ${{ github.workspace }}/metadata/SraRunTable_automated.csv
-          git add ${{ github.workspace }}/fasta/
-          git add ${{ github.workspace }}/depth/
-          git add ${{ github.workspace }}/variants/
+
+          # Add updated metadata and commit changes
+          git add "${{ github.workspace }}/metadata/SraRunTable_automated.csv"
           git commit -m "Add consensus sequences, depth, variant files, demixed files and updated metadata"
       - name: Push to GitHub
         if: ${{ github.event.inputs.testing != 'true' || github.event_name == 'schedule' }}
