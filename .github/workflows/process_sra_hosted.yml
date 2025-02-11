@@ -2,7 +2,7 @@ name: Process Flu SRA (self-hosted)
 run-name: ${{ github.event.inputs.reason || 'Scheduled Run' }}
 on:
   schedule:
-    - cron: '0 1 * * *'
+    - cron: '0 13 * * *'
   workflow_dispatch:
     inputs:
       reason:
@@ -23,7 +23,7 @@ env:
   NXF_NAME: github-${{ github.run_number }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   FLUSRA_VERSION: 'main'
-  BIOPROJECTS: "PRJNA1102327,PRJNA1122849,PRJNA1134696,PRJNA1219588"
+  BIOPROJECTS: "PRJNA1102327,PRJNA1122849,PRJNA1134696,PRJNA1219588,PRJNA1113664,PRJNA1114404,PRJNA1165336,PRJNA1121320"
   TOWER_ACCESS_TOKEN: ${{ secrets.TOWER_ACCESS_TOKEN }}
   TOWER_WORKSPACE_ID: ${{ secrets.TOWER_WORKSPACE_ID }}
 defaults:
