@@ -2,7 +2,7 @@ name: Process Flu SRA (self-hosted)
 run-name: ${{ github.event.inputs.reason || 'Scheduled Run' }}
 on:
   schedule:
-    - cron: '0 1 * * *'
+    - cron: '0 13 * * *'
   workflow_dispatch:
     inputs:
       reason:
