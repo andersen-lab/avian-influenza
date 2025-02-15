@@ -3,6 +3,10 @@
 BioProjects: 
 - [PRJNA1102327](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1102327)
 - [PRJNA1122849](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1122849)
+- [PRJNA1134696](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1134696)
+- [PRJNA1219588](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1219588)
+- [PRJNA1207547](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1207547)
+- [PRJNA980729](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA980729)
 
 This repository aims to provide consensus sequences, variant calls and depth information for the SRA data associated with BioProject [PRJNA1102327](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1102327). The repository checks for new data every 24 hours and updates the consensus sequences, variant calls and depth information accordingly. Additionally, the repository updates mapping of consensus genomes to the respective GenBank sequences by sample name every 24 hours.
 
