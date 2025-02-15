@@ -42,7 +42,8 @@ jobs:
       - uses: ./.github/actions/install-dependencies
       - name: Run nextflow
         run: nextflow run https://github.com/gp201/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ github.workspace }}/config/nextflow.config -profile mamba --bioproject ${{ env.BIOPROJECTS }} --outdir ${{ env.NXF_OUTPUT }} -name ${{ env.NXF_NAME }} -with-tower -latest
-      - name: Push outputs
+      - name: Commit outputs
+        if: ${{ hashFiles('outputs/metadata/*.csv') != '' }}
         run: |
           # Configure Git
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
