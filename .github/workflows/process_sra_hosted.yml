@@ -55,14 +55,14 @@ jobs:
           # Process fasta, depth, and variants directories in a loop
           for dir in fasta depth variants; do
             if [ -d "${{ env.NXF_OUTPUT }}/$dir/" ]; then
-              mv "${{ env.NXF_OUTPUT }}/$dir/"* "${{ github.workspace }}/$dir/"
+              find "${{ env.NXF_OUTPUT }}/$dir/" -maxdepth 1 -type f -exec mv {} "${{ github.workspace }}/$dir/" \;
               git add "${{ github.workspace }}/$dir/"
             fi
           done
 
           # Process demixed directory
           if [ -d "${{ env.NXF_OUTPUT }}/demixed/" ]; then
-            mv "${{ env.NXF_OUTPUT }}/demixed/"* "${{ github.workspace }}/demixed/"
+            find "${{ env.NXF_OUTPUT }}/demixed/" -maxdepth 1 -type f -exec mv {} "${{ github.workspace }}/demixed/" \;
             git add "${{ github.workspace }}/demixed/"
           fi
 
