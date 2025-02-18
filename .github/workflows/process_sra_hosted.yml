@@ -70,7 +70,7 @@ jobs:
           git add "${{ github.workspace }}/metadata/SraRunTable_automated.csv"
           git commit -m "Add consensus sequences, depth, variant files, demixed files and updated metadata"
       - name: Push to GitHub
-        if: ${{ github.event.inputs.testing != 'true' || github.event_name == 'schedule' }}
+        if: ${{ (github.event.inputs.testing != 'true' || github.event_name == 'schedule') && hashFiles('outputs/metadata/*.csv') != '' }}
         run: git push
       - name: Generate Run Summary
         if: ${{ hashFiles('outputs/metadata/*.tsv') != '' }}
