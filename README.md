@@ -11,7 +11,7 @@
 | **[PRJNA1207547](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1207547)** | U.S. Influenza A Surveillance in Wildlife. |
 | **[PRJNA980729](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA980729)** | US HPAI Sequencing. |
 
-This repository aims to provide consensus sequences, variant calls and depth information for the SRA data associated with BioProject [PRJNA1102327](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1102327). The repository checks for new data every 24 hours and updates the consensus sequences, variant calls and depth information accordingly. Additionally, the repository updates mapping of consensus genomes to the respective GenBank sequences by sample name every 24 hours.
+This repository aims to provide consensus sequences, variant calls and depth information for the SRA data associated with BioProjects listed above. The repository checks for new data every 24 hours and updates the consensus sequences, variant calls and depth information accordingly. Additionally, the repository updates mapping of consensus genomes to the respective GenBank sequences by sample name every 24 hours.
 
 All the data generated from **23rd May 2024** uses the genbank genome [A/cattle/Texas/24-008749-002/2024(H5N1)](https://www.ncbi.nlm.nih.gov/nuccore/?term=A%2Fcattle%2FTexas%2F24-008749-002%2F2024(H5N1)) as a reference. The reference genome is stored in [./reference/](./reference). Minimum depth was set at 1, minimum quality at 20, and the consensus threshold at 50%.
 
