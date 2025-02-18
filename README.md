@@ -1,12 +1,15 @@
 ## Consensus sequences for U.S. H5N1 clade 2.3.4.4b
 
-BioProjects: 
-- [PRJNA1102327](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1102327)
-- [PRJNA1122849](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1122849)
-- [PRJNA1134696](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1134696)
-- [PRJNA1219588](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1219588)
-- [PRJNA1207547](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1207547)
-- [PRJNA980729](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA980729)
+### BioProjects
+
+| BioProject | Description |
+| --- | --- |
+| **[PRJNA1102327](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1102327)** | U.S. H5N1 clade 2.3.4.4b genotype B3.13 immediate releases related to emergence and spread in dairy cattle. |
+| **[PRJNA1122849](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1122849)** | U.S. H5N1 clade 2.3.4.4b immediate releases related to peridomestic animals. |
+| **[PRJNA1134696](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1134696)** | Viral sequencing of US dairy milk. |
+| **[PRJNA1219588](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1219588)** | U.S. H5N1 clade 2.3.4.4b genotype D1.1 immediate releases related to emergence in dairy cattle. |
+| **[PRJNA1207547](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1207547)** | U.S. Influenza A Surveillance in Wildlife. |
+| **[PRJNA980729](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA980729)** | US HPAI Sequencing. |
 
 This repository aims to provide consensus sequences, variant calls and depth information for the SRA data associated with BioProject [PRJNA1102327](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA1102327). The repository checks for new data every 24 hours and updates the consensus sequences, variant calls and depth information accordingly. Additionally, the repository updates mapping of consensus genomes to the respective GenBank sequences by sample name every 24 hours.
 
