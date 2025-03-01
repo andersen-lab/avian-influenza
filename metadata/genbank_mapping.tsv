@@ -28167,3 +28167,27 @@ SRR32125744_NS_cns.fa	Consensus_SRR32125744_NS_cns_threshold_0.5_quality_20	SRR3
 SRR32125744_PA_cns.fa	Consensus_SRR32125744_PA_cns_threshold_0.5_quality_20	SRR32125744	PA	PV159358.1	3	A/Bobcat/KS/24-038225-002-original/2024
 SRR32125744_PB1_cns.fa	Consensus_SRR32125744_PB1_cns_threshold_0.5_quality_20	SRR32125744	PB1	PV159357.1	2	A/Bobcat/KS/24-038225-002-original/2024
 SRR32125744_PB2_cns.fa	Consensus_SRR32125744_PB2_cns_threshold_0.5_quality_20	SRR32125744	PB2	PV159356.1	1	A/Bobcat/KS/24-038225-002-original/2024
+SRR32499024_HA_cns.fa	Consensus_SRR32499024_HA_cns_threshold_0.5_quality_20	SRR32499024	HA	PV188178.1	4	A/Gadwall/OH/24-008552-023-original/2023
+SRR32499024_MP_cns.fa	Consensus_SRR32499024_MP_cns_threshold_0.5_quality_20	SRR32499024	MP	PV188181.1	7	A/Gadwall/OH/24-008552-023-original/2023
+SRR32499024_NA_cns.fa	Consensus_SRR32499024_NA_cns_threshold_0.5_quality_20	SRR32499024	NA	PV188180.1	6	A/Gadwall/OH/24-008552-023-original/2023
+SRR32499024_NP_cns.fa	Consensus_SRR32499024_NP_cns_threshold_0.5_quality_20	SRR32499024	NP	PV188179.1	5	A/Gadwall/OH/24-008552-023-original/2023
+SRR32499024_NS_cns.fa	Consensus_SRR32499024_NS_cns_threshold_0.5_quality_20	SRR32499024	NS	PV188182.1	8	A/Gadwall/OH/24-008552-023-original/2023
+SRR32499024_PA_cns.fa	Consensus_SRR32499024_PA_cns_threshold_0.5_quality_20	SRR32499024	PA	PV188177.1	3	A/Gadwall/OH/24-008552-023-original/2023
+SRR32499024_PB1_cns.fa	Consensus_SRR32499024_PB1_cns_threshold_0.5_quality_20	SRR32499024	PB1	PV188176.1	2	A/Gadwall/OH/24-008552-023-original/2023
+SRR32499024_PB2_cns.fa	Consensus_SRR32499024_PB2_cns_threshold_0.5_quality_20	SRR32499024	PB2	PV188175.1	1	A/Gadwall/OH/24-008552-023-original/2023
+SRR32499025_HA_cns.fa	Consensus_SRR32499025_HA_cns_threshold_0.5_quality_20	SRR32499025	HA	PV188202.1	4	A/Wood Duck/OH/24-008552-015-original/2023
+SRR32499025_MP_cns.fa	Consensus_SRR32499025_MP_cns_threshold_0.5_quality_20	SRR32499025	MP	PV188205.1	7	A/Wood Duck/OH/24-008552-015-original/2023
+SRR32499025_NA_cns.fa	Consensus_SRR32499025_NA_cns_threshold_0.5_quality_20	SRR32499025	NA	PV188204.1	6	A/Wood Duck/OH/24-008552-015-original/2023
+SRR32499025_NP_cns.fa	Consensus_SRR32499025_NP_cns_threshold_0.5_quality_20	SRR32499025	NP	PV188203.1	5	A/Wood Duck/OH/24-008552-015-original/2023
+SRR32499025_NS_cns.fa	Consensus_SRR32499025_NS_cns_threshold_0.5_quality_20	SRR32499025	NS	PV188206.1	8	A/Wood Duck/OH/24-008552-015-original/2023
+SRR32499025_PA_cns.fa	Consensus_SRR32499025_PA_cns_threshold_0.5_quality_20	SRR32499025	PA	PV188201.1	3	A/Wood Duck/OH/24-008552-015-original/2023
+SRR32499025_PB1_cns.fa	Consensus_SRR32499025_PB1_cns_threshold_0.5_quality_20	SRR32499025	PB1	PV188200.1	2	A/Wood Duck/OH/24-008552-015-original/2023
+SRR32499025_PB2_cns.fa	Consensus_SRR32499025_PB2_cns_threshold_0.5_quality_20	SRR32499025	PB2	PV188199.1	1	A/Wood Duck/OH/24-008552-015-original/2023
+SRR32499026_HA_cns.fa	Consensus_SRR32499026_HA_cns_threshold_0.5_quality_20	SRR32499026	HA	PV188186.1	4	A/Green-winged Teal/OH/24-008552-009-original/2023
+SRR32499026_MP_cns.fa	Consensus_SRR32499026_MP_cns_threshold_0.5_quality_20	SRR32499026	MP	PV188189.1	7	A/Green-winged Teal/OH/24-008552-009-original/2023
+SRR32499026_NA_cns.fa	Consensus_SRR32499026_NA_cns_threshold_0.5_quality_20	SRR32499026	NA	PV188188.1	6	A/Green-winged Teal/OH/24-008552-009-original/2023
+SRR32499026_NP_cns.fa	Consensus_SRR32499026_NP_cns_threshold_0.5_quality_20	SRR32499026	NP	PV188187.1	5	A/Green-winged Teal/OH/24-008552-009-original/2023
+SRR32499026_NS_cns.fa	Consensus_SRR32499026_NS_cns_threshold_0.5_quality_20	SRR32499026	NS	PV188190.1	8	A/Green-winged Teal/OH/24-008552-009-original/2023
+SRR32499026_PA_cns.fa	Consensus_SRR32499026_PA_cns_threshold_0.5_quality_20	SRR32499026	PA	PV188185.1	3	A/Green-winged Teal/OH/24-008552-009-original/2023
+SRR32499026_PB1_cns.fa	Consensus_SRR32499026_PB1_cns_threshold_0.5_quality_20	SRR32499026	PB1	PV188184.1	2	A/Green-winged Teal/OH/24-008552-009-original/2023
+SRR32499026_PB2_cns.fa	Consensus_SRR32499026_PB2_cns_threshold_0.5_quality_20	SRR32499026	PB2	PV188183.1	1	A/Green-winged Teal/OH/24-008552-009-original/2023
