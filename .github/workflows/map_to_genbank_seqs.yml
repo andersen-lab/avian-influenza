@@ -1,8 +1,10 @@
 name: Map to GenBank Sequences
 run-name: ${{ github.event.inputs.reason || 'Scheduled Run' }}
 on:
-  schedule:
-    - cron: '15 13 * * *'
+  workflow_run:
+    workflows: ["Process Flu SRA (self-hosted)"]
+    types:
+      - completed
   workflow_dispatch:
     inputs:
       reason:
