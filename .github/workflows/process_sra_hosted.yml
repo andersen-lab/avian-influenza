@@ -60,6 +60,11 @@ jobs:
             fi
           done
 
+          # Process genoflu directory
+          if [ -d "${{ env.NXF_OUTPUT }}/genoflu/" ]; then
+            mv "${{ env.NXF_OUTPUT }}/genoflu/genoflu_results.tsv" "${{ github.workspace }}/metadata/genoflu_results.tsv"
+          fi
+
           # Process demixed directory
           if [ -d "${{ env.NXF_OUTPUT }}/demixed/" ]; then
             find "${{ env.NXF_OUTPUT }}/demixed/" -maxdepth 1 -type f -exec mv {} "${{ github.workspace }}/demixed/" \;
