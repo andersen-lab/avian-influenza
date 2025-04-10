@@ -63,7 +63,7 @@ jobs:
           # Process genoflu directory
           if [ -d "${{ env.NXF_OUTPUT }}/genoflu/" ]; then
             mv "${{ env.NXF_OUTPUT }}/genoflu/genoflu_results.tsv" "${{ github.workspace }}/metadata/genoflu_results.tsv"
-            git add "$PWD/metadata/genoflu_results.tsv"33
+            git add "$PWD/metadata/genoflu_results.tsv"
           fi
 
           # Process demixed directory
