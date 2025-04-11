@@ -31,7 +31,7 @@ For a NextStrain-style formatted version of the genomes and metadata, please see
 
 ### Pipeline and Reference Details
 
-The data processing pipeline is available in [gp201/flusra](https://github.com/gp201/flusra).
+The data processing pipeline is available in [andersen-lab/flusra](https://github.com/andersen-lab/flusra).
 
 All data generated from **23rd May 2024** uses the GenBank genome [A/cattle/Texas/24-008749-003/2024(H5N1)](https://www.ncbi.nlm.nih.gov/nuccore/?term=A/cattle/Texas/24-008749-003/2024) as a reference. The reference genome can be found in [./reference/](./reference). Settings include a minimum depth of 1, minimum quality of 20, and a consensus threshold at 50%.
 

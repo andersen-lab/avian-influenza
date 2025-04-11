@@ -36,7 +36,7 @@ jobs:
         uses: actions/checkout@v4
       - uses: ./.github/actions/install-dependencies
       - name: Run nextflow
-        run: nextflow run https://github.com/gp201/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ github.workspace }}/config/nextflow.config -profile mamba --only_fetch true --bioproject ${{ env.BIOPROJECTS }} --outdir ${{ env.NXF_OUTPUT }}
+        run: nextflow run https://github.com/andersen-lab/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ github.workspace }}/config/nextflow.config -profile mamba --only_fetch true --bioproject ${{ env.BIOPROJECTS }} --outdir ${{ env.NXF_OUTPUT }}
       - name: Split SRAs into chunks
         if: ${{ hashFiles('outputs/metadata/SraRunTable_automated_new.txt') != '' }}
         id: split_sra
@@ -96,10 +96,10 @@ jobs:
           fi
       - name: Run nextflow
         if: ${{ env.IS_MILK_SAMPLE != 'true' }}
-        run: nextflow run https://github.com/gp201/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ github.workspace }}/config/nextflow.config -profile mamba --sra_accessions ${{ github.workspace }}/sra_chunks/${{ matrix.chunk_file }} --outdir ${{ env.NXF_OUTPUT }}
+        run: nextflow run https://github.com/andersen-lab/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ github.workspace }}/config/nextflow.config -profile mamba --sra_accessions ${{ github.workspace }}/sra_chunks/${{ matrix.chunk_file }} --outdir ${{ env.NXF_OUTPUT }}
       - name: Run nextflow for milk samples
         if: ${{ env.IS_MILK_SAMPLE == 'true' }}
-        run: nextflow run https://github.com/gp201/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ github.workspace }}/config/nextflow.config -profile mamba --sra_accessions ${{ github.workspace }}/sra_chunks/${{ matrix.chunk_file }} --milk_sra_accessions ${{ github.workspace }}/sra_chunks/${{ matrix.chunk_file }} --outdir ${{ env.NXF_OUTPUT }}
+        run: nextflow run https://github.com/andersen-lab/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ github.workspace }}/config/nextflow.config -profile mamba --sra_accessions ${{ github.workspace }}/sra_chunks/${{ matrix.chunk_file }} --milk_sra_accessions ${{ github.workspace }}/sra_chunks/${{ matrix.chunk_file }} --outdir ${{ env.NXF_OUTPUT }}
       - name: Upload Outputs
         uses: actions/upload-artifact@v4
         with:
