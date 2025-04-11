@@ -22,7 +22,7 @@ This repository aims to provide consensus sequences, variant calls and depth inf
 | **Consensus Sequences** | Consensus builds from SRA data (min depth: 1, quality: 20, consensus threshold: 50%). | [./fasta/](./fasta) |
 | **Variant Calls** | Variant calls results from corresponding SRA data. | [./variants/](./variants) |
 | **Depth Information** | Depth information for each SRA dataset. | [./depth/](./depth) |
-| **Milk Surveillance** | Estimates of lineage abundance from sources like “Bulk milk tanks”. | [./demixed/](./demixed) |
+| **Milk Surveillance** | Estimates of lineage abundance from sources like “Bulk milk tanks” using [Freyja](https://github.com/andersen-lab/Freyja). | [./demixed/](./demixed) |
 | **Genotype Information** | Genotyping processed using [GenoFLU](https://github.com/USDA-VS/GenoFLU). | [./metadata/genoflu_results.tsv](./metadata/genoflu_results.tsv) |
 | **SRA Metadata** | Metadata provided from SRA sources. | [./metadata/SraRunTable_automated.csv](./metadata/SraRunTable_automated.csv) |
 | **Genome to GenBank Mapping** | Links consensus genomes to their respective GenBank sequences by sample name. | [./metadata/genbank_mapping.tsv](./metadata/genbank_mapping.tsv) |
@@ -31,7 +31,7 @@ For a NextStrain-style formatted version of the genomes and metadata, please see
 
 ### Pipeline and Reference Details
 
-The data processing pipeline is available in [gp201/flusra](https://github.com/gp201/flusra).
+The data processing pipeline is available in [andersen-lab/flusra](https://github.com/andersen-lab/flusra).
 
 All data generated from **23rd May 2024** uses the GenBank genome [A/cattle/Texas/24-008749-003/2024(H5N1)](https://www.ncbi.nlm.nih.gov/nuccore/?term=A/cattle/Texas/24-008749-003/2024) as a reference. The reference genome can be found in [./reference/](./reference). Settings include a minimum depth of 1, minimum quality of 20, and a consensus threshold at 50%.
 
