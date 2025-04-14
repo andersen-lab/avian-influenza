@@ -17,7 +17,7 @@ concurrency:
   group: ${{ github.repository }}
 
 env:
-  NXF_VER: "24.10.4"
+  NXF_VER: "24.10.5"
   NXF_WORK: ${{ github.workspace }}/work
   NXF_OUTPUT: ${{ github.workspace }}/outputs
   NXF_NAME: github-${{ github.run_number }}
