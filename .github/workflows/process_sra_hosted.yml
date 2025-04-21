@@ -32,7 +32,7 @@ defaults:
 
 jobs:
   process_sra:
-    runs-on: self-hosted
+    runs-on: [self-hosted, profchaos]
     permissions:
         contents: write
         id-token: write
