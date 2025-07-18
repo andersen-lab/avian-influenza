@@ -24,9 +24,8 @@ def parse_args():
     )
     parser.add_argument(
         "--email",
-        required=False,
-        default="test@test.com",
-        help="Email address for NCBI Entrez API.",
+        required=True,
+        help="A valid email address is required for NCBI Entrez API usage.",
     )
     return parser.parse_args()
 
