@@ -100,7 +100,7 @@ def resolve_samples(df):
         for attempt in range(max_retries):
             try:
                 handle = Entrez.efetch(
-                    db="nucleotide", id=",".join(batch), rettype="gb", retmode="text"
+                    db="nucleotide", id=",".join(list(batch)), rettype="gb", retmode="text"
                 )
                 for record in SeqIO.parse(handle, "genbank"):
                     if hasattr(record, "dbxrefs"):
@@ -120,9 +120,6 @@ def resolve_samples(df):
                 print(f"Warning: Attempt {attempt + 1} of {max_retries} failed for batch starting at index {i}: {e}", file=sys.stderr)
                 if attempt + 1 == max_retries:
                     print(f"Failed to fetch data for batch starting at index {i} after {max_retries} attempts.", file=sys.stderr)
-                    # Decide whether to raise an error or just continue with the next batch
-                    # For now, we'll just print an error and continue
-                    break 
                 
                 # Exponential backoff
                 time.sleep(backoff_factor * (2 ** attempt))

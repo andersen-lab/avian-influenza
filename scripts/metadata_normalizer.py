@@ -25,7 +25,7 @@ def normalize_characters(text):
     return unidecode(text)
 
 def load_gadm_data(gadm_file):
-    """Load GADM data from the TSV file.
+    """Load GADM data from the provided Parquet file.
 
     Note: 'gadm' refers to the Global Administrative Areas database (https://gadm.org/).
     """
@@ -305,9 +305,6 @@ def get_genbank_data(accessions: list, max_retries: int = 3, backoff_factor: flo
             
             # Exponential backoff
             time.sleep(backoff_factor * (2 ** attempt))
-    
-    # This line should not be reachable if max_retries > 0, but serves as a fallback.
-    raise RuntimeError(f"An unexpected error occurred while fetching GenBank data after {max_retries} attempts.")
 
 
 def populate_fields_ncbi_avian(metadata_df: pl.LazyFrame, genbank_df: pl.LazyFrame) -> pl.DataFrame:
@@ -434,7 +431,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Normalize metadata for avian influenza sequences.")
     parser.add_argument('-i', '--input_file', required=True, help='Path to the input metadata file')
     parser.add_argument('-g', '--genbank_file', required=True, help='Path to the GenBank metadata file')
-    parser.add_argument('-d', '--gadm_file', required=False, default='assets/gadm_pkg_names.tsv', help='Path to the GADM data file')
+    parser.add_argument('-d', '--gadm_file', required=False, default='assets/gadm_pkg_names.parquet', help='Path to the GADM data file')
     parser.add_argument('-e', '--email', required=False, default="test@test.com", help="Email address for NCBI Entrez API.")
     parser.add_argument('-o', '--output_file', required=True, help='Path to save the normalized metadata.')
     return parser.parse_args()
