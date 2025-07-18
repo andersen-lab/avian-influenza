@@ -61,7 +61,7 @@ jobs:
           fi
           if [[ $(git status --porcelain) ]]; then
             git commit -m "Update GenBank mappings and normalized metadata"
-            git push origin main
+            git push origin master
           else
             echo "No changes to push."
           fi
