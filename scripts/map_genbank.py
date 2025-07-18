@@ -61,6 +61,27 @@ def download_ncbi_metadata():
 def resolve_samples(df):
     """
     Resolve ambiguous SRA-GenBank mappings by cross-referencing BioSample IDs.
+    
+    Parameters:
+        df (pd.DataFrame): A DataFrame containing SRA metadata with at least the following columns:
+            - 'genbank_acc': GenBank accession numbers.
+            - 'BioSample': BioSample IDs.
+            - 'sra_run': SRA run identifiers.
+    
+    Returns:
+        tuple:
+            - correct_matches (pd.DataFrame): A DataFrame of rows where the BioSample ID matches
+              between the SRA metadata and GenBank data. Includes resolved mappings.
+            - unresolved (pd.DataFrame): A DataFrame of rows that could not be resolved due to
+              ambiguous or missing BioSample information.
+    
+    Resolution Algorithm:
+        1. Fetch GenBank records for the given accession numbers in batches.
+        2. Extract BioSample IDs from the GenBank records' cross-references.
+        3. Merge the extracted BioSample data with the input DataFrame on 'genbank_acc'.
+        4. Identify rows where the BioSample ID matches between the input and GenBank data.
+        5. Mark rows as unresolved if their 'sra_run' and 'genbank_acc' are not part of the
+           resolved matches.
     """
     accessions = df["genbank_acc"].unique()
     if not accessions.any():
