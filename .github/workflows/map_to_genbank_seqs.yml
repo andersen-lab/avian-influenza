@@ -24,8 +24,28 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+      - name: Install dependencies
+        run: |
+          pip install pandas==2.3.1 biopython==1.85 polars==1.31.0 Unidecode==1.4.0 requests==2.32.4
       - name: Map to GenBank Sequences
-        run: bash scripts/map_genbank.sh ${{ github.workspace }}/metadata/SraRunTable_automated.csv ${{ github.workspace }}/fasta/ > ${{ github.workspace }}/genbank_mapping.tsv
+        run: |
+          python scripts/map_genbank.py \
+            ${{ github.workspace }}/metadata/SraRunTable_automated.csv \
+            ${{ github.workspace }}/fasta/ \
+            ${{ github.workspace }}/genbank_mapping.tsv
+
+      - name: Normlalize Metadata
+        run: |
+          python scripts/metadata_normalizer.py \
+            --input_file ${{ github.workspace }}/metadata/SraRunTable_automated.csv \
+            --genbank_file ${{ github.workspace }}/genbank_mapping.tsv \
+            --output_file ${{ github.workspace }}/metadata/SraRunTable_automated_normalized.tsv
+
       - name: Push GenBank Mappings
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -34,5 +54,9 @@ jobs:
           if [[ $(git status --porcelain ${{ github.workspace }}/metadata/genbank_mapping.tsv) ]]; then
             git add ${{ github.workspace }}/metadata/genbank_mapping.tsv
             git commit -m "Update GenBank mappings"
-            git push
           fi
+          if [[ $(git status --porcelain ${{ github.workspace }}/metadata/SraRunTable_automated_normalized.tsv) ]]; then
+            git add ${{ github.workspace }}/metadata/SraRunTable_automated_normalized.tsv
+            git commit -m "Update normalized metadata"
+          fi
+          git push origin main || true
