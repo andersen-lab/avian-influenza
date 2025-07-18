@@ -44,6 +44,7 @@ jobs:
           python scripts/metadata_normalizer.py \
             --input_file ${{ github.workspace }}/metadata/SraRunTable_automated.csv \
             --genbank_file ${{ github.workspace }}/genbank_mapping.tsv \
+            --email "pgangavarapu@scripps.edu" \
             --output_file ${{ github.workspace }}/metadata/SraRunTable_automated_normalized.tsv
 
       - name: Push GenBank Mappings

@@ -103,8 +103,6 @@ def load_gadm_data(gadm_file=None):
     except Exception as e:
         print(f"Warning: Could not load GADM data: {e}", file=sys.stderr)
 
-load_gadm_data('assets/gadm_pkg_names.tsv')
-
 def get_country_info(c_name_str):
     """Gets the country name from GADM data."""
     c_name_str_stripped = c_name_str.strip()
@@ -273,8 +271,7 @@ def normalize_location(input_string):
 
 def get_genbank_data(accessions: list) -> list:
     """Get collection dates and geo_loc_name for a batch of GenBank accessions."""
-    Entrez.email = "test@test.com"
-    
+
     try:
         handle = Entrez.efetch(db="nucleotide", id=",".join(accessions), rettype="gb", retmode="text")
         records = SeqIO.parse(handle, "genbank")
@@ -330,7 +327,6 @@ def populate_fields_ncbi_avian(metadata_df: pl.LazyFrame, genbank_df: pl.LazyFra
     # Join with main metadata to update fields, coalescing new and old values
     updated_metadata_df = (metadata_df
                            .join(genbank_with_updates, left_on="Run", right_on="sra_run", how="left")
-                        
                            .drop(["geo_loc_name_gb", "Collection_Date_gb", "genbank_acc"]))
 
     return updated_metadata_df.collect()
@@ -420,6 +416,8 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Normalize metadata for avian influenza sequences.")
     parser.add_argument('-i', '--input_file', required=True, help='Path to the input metadata file')
     parser.add_argument('-g', '--genbank_file', required=True, help='Path to the GenBank metadata file')
+    parser.add_argument('-d', '--gadm_file', required=False, default='assets/gadm_pkg_names.tsv', help='Path to the GADM data file')
+    parser.add_argument('-e', '--email', required=False, default="test@test.com", help="Email address for NCBI Entrez API.")
     parser.add_argument('-o', '--output_file', required=True, help='Path to save the normalized metadata.')
     return parser.parse_args()
 
@@ -427,6 +425,8 @@ def parse_args() -> argparse.Namespace:
 def main():
     """Main execution function."""
     args = parse_args()
+    load_gadm_data(args.gadm_file)
+    Entrez.email = args.email
     process_delimited_metadata(args.input_file, args.genbank_file, args.output_file)
 
 
