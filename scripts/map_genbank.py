@@ -153,10 +153,9 @@ def create_final_dataframe(sra_df, ncbi_df, fasta_dir):
     ].transform("size")
     faulty_sra_assignment = merged_df[sra_counts_in_segment > 1]
 
-    assert 'SRR28752683' in faulty_sra_assignment['sra_run'].values, \
-        "Expected SRA run SRR28752683 not found in faulty assignments."
-
-    if not faulty_sra_assignment.empty:
+    if faulty_sra_assignment.empty:
+        print("No faulty SRA assignments found. Skipping resolution step.")
+        return merged_df
         print("Attempting to resolve SRA assignments for segments with multiple SRA runs")
         correct_matches, unresolved = resolve_samples(faulty_sra_assignment)
 
