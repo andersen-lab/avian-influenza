@@ -319,6 +319,7 @@ def populate_fields_ncbi_avian(metadata_df: pl.LazyFrame, genbank_df: pl.LazyFra
         batch = accessions[i:i+batch_size]
         all_ncbi_data.extend(get_genbank_data(batch))
         print(f"Processed {len(all_ncbi_data)} of {len(accessions)} records so far...")
+        time.sleep(0.5)  # Add a delay to avoid overwhelming the NCBI servers
 
     # Create a DataFrame with the new data from NCBI
     latest_genbank_df = pl.DataFrame(all_ncbi_data).lazy()
