@@ -28,7 +28,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-          cache: 'pip'
       - name: Install dependencies
         run: |
           pip install pandas==2.3.1 biopython==1.85 polars==1.31.0 Unidecode==1.4.0 requests==2.32.4 pyarrow==21.0.0
