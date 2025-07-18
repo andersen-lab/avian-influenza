@@ -330,10 +330,7 @@ def populate_fields_ncbi_avian(metadata_df: pl.LazyFrame, genbank_df: pl.LazyFra
     # Join with main metadata to update fields, coalescing new and old values
     updated_metadata_df = (metadata_df
                            .join(genbank_with_updates, left_on="Run", right_on="sra_run", how="left")
-                        #    .with_columns(
-                        #        geo_loc_name=pl.coalesce("geo_loc_name_gb", "geo_loc_name"),
-                        #        Collection_Date=pl.coalesce("Collection_Date_gb", "Collection_Date")
-                        #    )
+                        
                            .drop(["geo_loc_name_gb", "Collection_Date_gb", "genbank_acc"]))
 
     return updated_metadata_df.collect()
