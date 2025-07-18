@@ -432,7 +432,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument('-i', '--input_file', required=True, help='Path to the input metadata file')
     parser.add_argument('-g', '--genbank_file', required=True, help='Path to the GenBank metadata file')
     parser.add_argument('-d', '--gadm_file', required=False, default='assets/gadm_pkg_names.parquet', help='Path to the GADM data file (default: assets/gadm_pkg_names.parquet). If the default file is missing, you must provide a valid path.')
-    parser.add_argument('-e', '--email', required=False, default="test@test.com", help="Email address for NCBI Entrez API.")
+    parser.add_argument('-e', '--email', required=True, help="Valid email address for NCBI Entrez API (required).")
     parser.add_argument('-o', '--output_file', required=True, help='Path to save the normalized metadata.')
     return parser.parse_args()
 
