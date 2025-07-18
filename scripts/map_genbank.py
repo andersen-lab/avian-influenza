@@ -84,7 +84,7 @@ def resolve_samples(df):
            resolved matches.
     """
     accessions = df["genbank_acc"].unique()
-    if not accessions.any():
+    if len(accessions) == 0:
         return None, None
 
     batch_size = 1000
