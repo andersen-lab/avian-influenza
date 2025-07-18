@@ -39,7 +39,7 @@ jobs:
             ${{ github.workspace }}/fasta/ \
             ${{ github.workspace }}/genbank_mapping.tsv
 
-      - name: Normlalize Metadata
+      - name: Normalize Metadata
         run: |
           python scripts/metadata_normalizer.py \
             --input_file ${{ github.workspace }}/metadata/SraRunTable_automated.csv \
