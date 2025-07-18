@@ -37,7 +37,10 @@ def load_gadm_data(gadm_file):
     
     try:
         # Read the TSV file with polars
-        gadm_data = pl.read_csv(gadm_file, separator='\t', encoding='utf-8', ignore_errors=True)
+        try:
+            gadm_data = pl.read_csv(gadm_file, separator='\t', encoding='utf-8')
+        except Exception as e:
+            raise ValueError(f"Error parsing GADM file '{gadm_file}': {e}")
         
         # Process countries
         countries_df = gadm_data.select(['NAME_0', 'GID_0']).filter(
