@@ -37,7 +37,8 @@ jobs:
           python scripts/map_genbank.py \
             ${{ github.workspace }}/metadata/SraRunTable_automated.csv \
             ${{ github.workspace }}/fasta/ \
-            ${{ github.workspace }}/genbank_mapping.tsv
+            ${{ github.workspace }}/genbank_mapping.tsv \
+            --email "pgangavarapu@scripps.edu"
 
       - name: Normalize Metadata
         run: |
