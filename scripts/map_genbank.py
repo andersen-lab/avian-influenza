@@ -174,9 +174,7 @@ def create_final_dataframe(sra_df, ncbi_df, fasta_dir):
     ].transform("size")
     faulty_sra_assignment = merged_df[sra_counts_in_segment > 1]
 
-    if faulty_sra_assignment.empty:
-        print("No faulty SRA assignments found. Skipping resolution step.")
-        return merged_df
+    if not faulty_sra_assignment.empty:
         print("Attempting to resolve SRA assignments for segments with multiple SRA runs")
         correct_matches, unresolved = resolve_samples(faulty_sra_assignment)
 
@@ -194,6 +192,8 @@ def create_final_dataframe(sra_df, ncbi_df, fasta_dir):
             unresolved.to_csv(
                 "unresolved_sra_assignments.tsv", sep="\t", index=False, header=True
             )
+    else:
+        print("No segments with multiple SRA runs found, proceeding with existing data.")
 
     # Map segments and filter based on available FASTA files using vectorized operations
     seg_map = {

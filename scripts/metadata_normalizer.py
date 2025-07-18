@@ -23,8 +23,13 @@ def normalize_characters(text):
     
     return unidecode(text)
 
-def load_gadm_data(gadm_file=None):
-    """Load GADM data from the TSV file."""
+def load_gadm_data(gadm_file):
+    """Load GADM data from the TSV file.
+
+    Note: 'gadm' refers to the Global Administrative Areas database (https://gadm.org/).
+    """
+    if gadm_file is None:
+        raise ValueError("gadm_file argument must be provided and cannot be None.")
     global gadm_data, gadm_countries, gadm_states, gadm_counties, gadm_us_state_lookup
     
     if gadm_data is not None:
@@ -304,8 +309,6 @@ def populate_fields_ncbi_avian(metadata_df: pl.LazyFrame, genbank_df: pl.LazyFra
 
     accessions = ha_accessions_df.select("genbank_acc").collect().unique().to_series().to_list()
 
-    print(f" ha_accessions_df: {ha_accessions_df.collect().shape}, accessions: {len(accessions)}")
-
     # Process accessions in batches to query NCBI
     batch_size = 1000
     all_ncbi_data = []
@@ -317,8 +320,6 @@ def populate_fields_ncbi_avian(metadata_df: pl.LazyFrame, genbank_df: pl.LazyFra
     # Create a DataFrame with the new data from NCBI
     latest_genbank_df = pl.DataFrame(all_ncbi_data).lazy()
 
-    print(f"metadata_df: {metadata_df.collect().shape}, latest_genbank_df: {latest_genbank_df.collect().shape}")
-
     # Join new NCBI data with the HA accessions
     genbank_with_updates = ha_accessions_df.join(latest_genbank_df, on="genbank_acc", how="left")
 
@@ -327,6 +328,10 @@ def populate_fields_ncbi_avian(metadata_df: pl.LazyFrame, genbank_df: pl.LazyFra
     # Join with main metadata to update fields, coalescing new and old values
     updated_metadata_df = (metadata_df
                            .join(genbank_with_updates, left_on="Run", right_on="sra_run", how="left")
+                           .with_columns(
+                               geo_loc_name=pl.coalesce("geo_loc_name_gb", "geo_loc_name"),
+                               Collection_Date=pl.coalesce("Collection_Date_gb", "Collection_Date")
+                           )
                            .drop(["geo_loc_name_gb", "Collection_Date_gb", "genbank_acc"]))
 
     return updated_metadata_df.collect()
@@ -369,8 +374,7 @@ def normalize_metadata(metadata_df: pl.DataFrame) -> pl.DataFrame:
     return (metadata_df
             .with_columns(
                 pl.col("Collection_Date").map_elements(normalize_date, return_dtype=pl.String),
-                # pl.col("geo_loc_name").cast(pl.String).str.strip_chars().map_elements(normalize_location, return_dtype=pl.String),
-                pl.col("geo_loc_name").cast(pl.String).str.strip_chars().alias("geo_loc_name"),
+                pl.col("geo_loc_name").cast(pl.String).str.strip_chars().map_elements(normalize_location, return_dtype=pl.String),
                 pl.col("Run").cast(pl.String).str.strip_chars().alias("Run"),
                 pl.col("isolation_source").cast(pl.String).str.strip_chars().alias("isolation_source")
             ))
