@@ -26,6 +26,7 @@ This repository aims to provide consensus sequences, variant calls and depth inf
 | **Genotype Information** | Genotyping processed using [GenoFLU](https://github.com/USDA-VS/GenoFLU). | [./metadata/genoflu_results.tsv](./metadata/genoflu_results.tsv) |
 | **SRA Metadata** | Metadata provided from SRA sources. | [./metadata/SraRunTable_automated.csv](./metadata/SraRunTable_automated.csv) |
 | **Genome to GenBank Mapping** | Links consensus genomes to their respective GenBank sequences by sample name. | [./metadata/genbank_mapping.tsv](./metadata/genbank_mapping.tsv) |
+| **Merged SRA and Genbank Metadata** | Metadata provided from both SRA and GenBank with location and date normalization | [./metadata/SraRunTable_automated_normalized.tsv](./metadata/SraRunTable_automated_normalized.tsv) |
 
 For a NextStrain-style formatted version of the genomes and metadata, please see [moncla-lab/avian-flu-USDA-cattle/](https://github.com/moncla-lab/avian-flu-USDA-cattle/).
 
