@@ -55,13 +55,12 @@ jobs:
           mv ${{ github.workspace }}/genbank_mapping.tsv ${{ github.workspace }}/metadata/genbank_mapping.tsv
           if [[ $(git status --porcelain ${{ github.workspace }}/metadata/genbank_mapping.tsv) ]]; then
             git add ${{ github.workspace }}/metadata/genbank_mapping.tsv
-            git commit -m "Update GenBank mappings"
           fi
           if [[ $(git status --porcelain ${{ github.workspace }}/metadata/SraRunTable_automated_normalized.tsv) ]]; then
             git add ${{ github.workspace }}/metadata/SraRunTable_automated_normalized.tsv
-            git commit -m "Update normalized metadata"
           fi
           if [[ $(git status --porcelain) ]]; then
+            git commit -m "Update GenBank mappings and normalized metadata"
             git push origin main
           else
             echo "No changes to push."
