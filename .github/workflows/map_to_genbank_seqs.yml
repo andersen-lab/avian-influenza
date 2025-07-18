@@ -31,7 +31,7 @@ jobs:
           cache: 'pip'
       - name: Install dependencies
         run: |
-          pip install pandas==2.3.1 biopython==1.85 polars==1.31.0 Unidecode==1.4.0 requests==2.32.4
+          pip install pandas==2.3.1 biopython==1.85 polars==1.31.0 Unidecode==1.4.0 requests==2.32.4 pyarrow==21.0.0
       - name: Map to GenBank Sequences
         run: |
           python scripts/map_genbank.py \
@@ -44,7 +44,7 @@ jobs:
           python scripts/metadata_normalizer.py \
             --input_file ${{ github.workspace }}/metadata/SraRunTable_automated.csv \
             --genbank_file ${{ github.workspace }}/genbank_mapping.tsv \
-            --gadm_file ${{ github.workspace }}/metadata/gadm_pkg_names.tsv \
+            --gadm_file ${{ github.workspace }}/metadata/gadm_pkg_names.parquet \
             --email "pgangavarapu@scripps.edu" \
             --output_file ${{ github.workspace }}/metadata/SraRunTable_automated_normalized.tsv
 

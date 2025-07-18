@@ -3,8 +3,10 @@ import pandas as pd
 import requests
 import io
 import os
+import sys
 from datetime import date
 from Bio import Entrez, SeqIO
+import time
 
 
 def parse_args():
@@ -92,25 +94,38 @@ def resolve_samples(df):
 
     for i in range(0, len(accessions), batch_size):
         batch = accessions[i : i + batch_size]
-        try:
-            handle = Entrez.efetch(
-                db="nucleotide", id=batch.tolist(), rettype="gb", retmode="text"
-            )
-            for record in SeqIO.parse(handle, "genbank"):
-                if hasattr(record, "dbxrefs"):
-                    for xref in record.dbxrefs:
-                        if xref.startswith("BioSample:"):
-                            biosample_id = xref.split(":", 1)[1]
-                            biosample_data.append(
-                                {
-                                    "genbank_acc": record.id,
-                                    "genbank_biosample": biosample_id,
-                                }
-                            )
-                            break
-            handle.close()
-        except Exception as e:
-            print(f"An error occurred during Entrez fetch: {e}")
+        max_retries = 3
+        backoff_factor = 0.5
+        
+        for attempt in range(max_retries):
+            try:
+                handle = Entrez.efetch(
+                    db="nucleotide", id=",".join(batch), rettype="gb", retmode="text"
+                )
+                for record in SeqIO.parse(handle, "genbank"):
+                    if hasattr(record, "dbxrefs"):
+                        for xref in record.dbxrefs:
+                            if xref.startswith("BioSample:"):
+                                biosample_id = xref.split(":", 1)[1]
+                                biosample_data.append(
+                                    {
+                                        "genbank_acc": record.id,
+                                        "genbank_biosample": biosample_id,
+                                    }
+                                )
+                                break
+                handle.close()
+                break  # Success, exit retry loop
+            except Exception as e:
+                print(f"Warning: Attempt {attempt + 1} of {max_retries} failed for batch starting at index {i}: {e}", file=sys.stderr)
+                if attempt + 1 == max_retries:
+                    print(f"Failed to fetch data for batch starting at index {i} after {max_retries} attempts.", file=sys.stderr)
+                    # Decide whether to raise an error or just continue with the next batch
+                    # For now, we'll just print an error and continue
+                    break 
+                
+                # Exponential backoff
+                time.sleep(backoff_factor * (2 ** attempt))
 
     if not biosample_data:
         print("Could not retrieve BioSample information from GenBank.")

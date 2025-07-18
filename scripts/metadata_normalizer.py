@@ -7,6 +7,7 @@ import polars as pl
 from Bio import Entrez, SeqIO
 from dateutil.parser import parse, ParserError
 from unidecode import unidecode
+import time
 
 
 # Load GADM data
@@ -38,7 +39,7 @@ def load_gadm_data(gadm_file):
     try:
         # Read the TSV file with polars
         try:
-            gadm_data = pl.read_csv(gadm_file, separator='\t', encoding='utf-8')
+            gadm_data = pl.read_parquet(gadm_file)
         except Exception as e:
             raise ValueError(f"Error parsing GADM file '{gadm_file}': {e}")
         
@@ -277,27 +278,36 @@ def normalize_location(input_string):
     result = f"{country_final}/{state_final}/{county_final}/{city_final}"
     return normalize_characters(result)
 
-def get_genbank_data(accessions: list) -> list:
-    """Get collection dates and geo_loc_name for a batch of GenBank accessions."""
+def get_genbank_data(accessions: list, max_retries: int = 3, backoff_factor: float = 0.5) -> list:
+    """Get collection dates and geo_loc_name for a batch of GenBank accessions with retry logic."""
 
-    try:
-        handle = Entrez.efetch(db="nucleotide", id=",".join(accessions), rettype="gb", retmode="text")
-        records = SeqIO.parse(handle, "genbank")
-        
-        genbank_data = []
-        for record in records:
-            data = {"genbank_acc": record.id}
-            source_feature = next((f for f in record.features if f.type == "source"), None)
-            if source_feature:
-                data["Collection_Date_gb"] = source_feature.qualifiers.get("collection_date", [None])[0]
-                data["geo_loc_name_gb"] = source_feature.qualifiers.get("geo_loc_name", [None])[0]
-            genbank_data.append(data)
+    for attempt in range(max_retries):
+        try:
+            handle = Entrez.efetch(db="nucleotide", id=",".join(accessions), rettype="gb", retmode="text")
+            records = SeqIO.parse(handle, "genbank")
             
-        handle.close()
-        return genbank_data
+            genbank_data = []
+            for record in records:
+                data = {"genbank_acc": record.id}
+                source_feature = next((f for f in record.features if f.type == "source"), None)
+                if source_feature:
+                    data["Collection_Date_gb"] = source_feature.qualifiers.get("collection_date", [None])[0]
+                    data["geo_loc_name_gb"] = source_feature.qualifiers.get("geo_loc_name", [None])[0]
+                genbank_data.append(data)
+                
+            handle.close()
+            return genbank_data
 
-    except Exception as e:
-        raise RuntimeError(f"An unexpected error occurred while fetching GenBank data: {e}")
+        except Exception as e:
+            print(f"Warning: Attempt {attempt + 1} of {max_retries} failed for GenBank fetch: {e}", file=sys.stderr)
+            if attempt + 1 == max_retries:
+                raise RuntimeError(f"Failed to fetch GenBank data after {max_retries} attempts: {e}")
+            
+            # Exponential backoff
+            time.sleep(backoff_factor * (2 ** attempt))
+    
+    # This line should not be reachable if max_retries > 0, but serves as a fallback.
+    raise RuntimeError(f"An unexpected error occurred while fetching GenBank data after {max_retries} attempts.")
 
 
 def populate_fields_ncbi_avian(metadata_df: pl.LazyFrame, genbank_df: pl.LazyFrame) -> pl.DataFrame:
@@ -319,7 +329,7 @@ def populate_fields_ncbi_avian(metadata_df: pl.LazyFrame, genbank_df: pl.LazyFra
         batch = accessions[i:i+batch_size]
         all_ncbi_data.extend(get_genbank_data(batch))
         print(f"Processed {len(all_ncbi_data)} of {len(accessions)} records so far...")
-        time.sleep(0.5)  # Add a delay to avoid overwhelming the NCBI servers
+        time.sleep(0.5)
 
     # Create a DataFrame with the new data from NCBI
     latest_genbank_df = pl.DataFrame(all_ncbi_data).lazy()
