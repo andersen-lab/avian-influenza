@@ -387,7 +387,8 @@ def normalize_metadata(metadata_df: pl.DataFrame) -> pl.DataFrame:
                 pl.col("Collection_Date").map_elements(normalize_date, return_dtype=pl.String),
                 pl.col("geo_loc_name").cast(pl.String).str.strip_chars().map_elements(normalize_location, return_dtype=pl.String),
                 pl.col("Run").cast(pl.String).str.strip_chars().alias("Run"),
-                pl.col("isolation_source").cast(pl.String).str.strip_chars().alias("isolation_source")
+                pl.col("isolation_source").cast(pl.String).str.strip_chars().str.to_lowercase().alias("isolation_source"),
+                pl.col("Host").cast(pl.String).str.strip_chars().str.to_lowercase().alias("Host"),
             ))
 
 
