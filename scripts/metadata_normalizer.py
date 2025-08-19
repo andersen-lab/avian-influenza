@@ -386,14 +386,20 @@ def normalize_metadata(metadata_df: pl.DataFrame) -> pl.DataFrame:
                 pl.col("Collection_Date").map_elements(normalize_date, return_dtype=pl.String),
                 pl.col("geo_loc_name").cast(pl.String).str.strip_chars().map_elements(normalize_location, return_dtype=pl.String),
                 pl.col("Run").cast(pl.String).str.strip_chars().alias("Run"),
-                pl.col("isolation_source").cast(pl.String).str.strip_chars().str.to_lowercase()
-                    .str.replace_all(r"[^a-z0-9\s]", " ")       # replace remaining special chars with a single space
-                    .str.replace_all(r"\s+", " ")               # collapse multiple spaces
-                    .str.strip_chars().alias("isolation_source"),
-                pl.col("Host").cast(pl.String).str.strip_chars().str.to_lowercase()
+                pl.col("isolation_source")
+                    .cast(pl.String)
+                    .str.to_lowercase()
                     .str.replace_all(r"[^a-z0-9\s]", " ")
                     .str.replace_all(r"\s+", " ")
-                    .str.strip_chars().alias("Host"),
+                    .str.strip_chars()
+                    .alias("isolation_source"),
+                pl.col("Host")
+                    .cast(pl.String)
+                    .str.to_lowercase()
+                    .str.replace_all(r"[^a-z0-9\s]", " ")
+                    .str.replace_all(r"\s+", " ")
+                    .str.strip_chars()
+                    .alias("Host"),
             ))
 
 
