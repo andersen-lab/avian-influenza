@@ -209,7 +209,6 @@ def normalize_location(input_string):
     if not input_string or not input_string.strip():
         return "////"
 
-    input_stripped = input_string.strip()
     country_final, state_final, county_final, city_final = "", "", "", ""
     
     # case 1: "USA"
@@ -317,7 +316,7 @@ def populate_fields_ncbi_avian(metadata_df: pl.LazyFrame, genbank_df: pl.LazyFra
                         .agg(pl.col("genbank_acc").first())
                     )
 
-    accessions = ha_accessions_df.select("genbank_acc").collect().unique().to_series().to_list()
+    accessions = ha_accessions_df.select(pl.col("genbank_acc")).unique().collect().get_column("genbank_acc").to_list()
 
     # Process accessions in batches to query NCBI
     batch_size = 1000
@@ -387,8 +386,20 @@ def normalize_metadata(metadata_df: pl.DataFrame) -> pl.DataFrame:
                 pl.col("Collection_Date").map_elements(normalize_date, return_dtype=pl.String),
                 pl.col("geo_loc_name").cast(pl.String).str.strip_chars().map_elements(normalize_location, return_dtype=pl.String),
                 pl.col("Run").cast(pl.String).str.strip_chars().alias("Run"),
-                pl.col("isolation_source").cast(pl.String).str.strip_chars().str.to_lowercase().alias("isolation_source"),
-                pl.col("Host").cast(pl.String).str.strip_chars().str.to_lowercase().alias("Host"),
+                pl.col("isolation_source")
+                    .cast(pl.String)
+                    .str.to_lowercase()
+                    .str.replace_all(r"[^a-z0-9\s]", " ")
+                    .str.replace_all(r"\s+", " ")
+                    .str.strip_chars()
+                    .alias("isolation_source"),
+                pl.col("Host")
+                    .cast(pl.String)
+                    .str.to_lowercase()
+                    .str.replace_all(r"[^a-z0-9\s]", " ")
+                    .str.replace_all(r"\s+", " ")
+                    .str.strip_chars()
+                    .alias("Host"),
             ))
 
 
