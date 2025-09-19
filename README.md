@@ -19,7 +19,7 @@ This repository aims to provide consensus sequences, variant calls and depth inf
 
 | **Data Type** | **Description** | **Location** |
 |---------------|-----------------|--------------|
-| **Consensus Sequences** | Consensus builds from SRA data (min depth: 1, quality: 20, consensus threshold: 50%). | [./fasta/](./fasta) |
+| **Consensus Sequences** | Consensus builds from SRA data (min depth: 5, quality: 20, consensus threshold: 75%). | [./fasta/](./fasta) |
 | **Variant Calls** | Variant calls results from corresponding SRA data. | [./variants/](./variants) |
 | **Depth Information** | Depth information for each SRA dataset. | [./depth/](./depth) |
 | **Milk Surveillance** | Estimates of lineage abundance from sources like “Bulk milk tanks” using [Freyja](https://github.com/andersen-lab/Freyja). | [./demixed/](./demixed) |
