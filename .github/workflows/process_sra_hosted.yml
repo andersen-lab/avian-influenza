@@ -38,7 +38,7 @@ jobs:
         id-token: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - uses: ./.github/actions/install-dependencies
       - name: Run nextflow
         run: nextflow run https://github.com/andersen-lab/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ github.workspace }}/config/nextflow.config -profile mamba --bioproject ${{ env.BIOPROJECTS }} --outdir ${{ env.NXF_OUTPUT }} -name ${{ env.NXF_NAME }} -with-tower -latest
