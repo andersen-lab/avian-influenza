@@ -82,7 +82,7 @@ jobs:
       - name: Install Dependencies
         uses: ./.github/actions/install-dependencies
       - name: Download chunk files
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: sra_chunks
           path: ${{ github.workspace }}/sra_chunks/
@@ -131,18 +131,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
       - name: Download metadata
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: metadata
           path: ${{ env.NXF_OUTPUT }}/
       - name: Download files
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           pattern: files-*
           path: ${{ env.NXF_OUTPUT }}/
           merge-multiple: true
       - name: Download demixed files
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           pattern: demixed-*
           path: ${{ env.NXF_OUTPUT }}/demixed/
