@@ -103,7 +103,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
       - name: Upload Nextflow log
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: failed-run-log
           include-hidden-files: true
