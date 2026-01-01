@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   map_to_genbank_seqs:
-    runs-on: ubuntu-22.04
+    runs-on: [self-hosted, profchaos]
     defaults:
       run:
         shell: bash -el {0}
