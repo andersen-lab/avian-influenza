@@ -1,7 +1,7 @@
-name: 'Install Dependencies'
-description: 'Install dependencies for the pipeline'
+name: "Install Dependencies"
+description: "Install dependencies for the pipeline"
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - name: Free disk space
       if: runner.environment == 'github-hosted'
@@ -13,7 +13,7 @@ runs:
       shell: bash
     - name: Cache envs
       id: cache-envs
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: |
           ${{ env.NXF_WORK }}/conda

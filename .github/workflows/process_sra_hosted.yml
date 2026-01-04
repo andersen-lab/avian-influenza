@@ -2,16 +2,16 @@ name: Process Flu SRA (self-hosted)
 run-name: ${{ github.event.inputs.reason || 'Scheduled Run' }}
 on:
   schedule:
-    - cron: '0 13 * * *'
+    - cron: "0 13 * * *"
   workflow_dispatch:
     inputs:
       reason:
-        description: 'Reason for running the workflow'
+        description: "Reason for running the workflow"
         required: true
-        default: 'Routine Processing'
+        default: "Routine Processing"
       testing:
         type: boolean
-        description: 'Run in testing mode'
+        description: "Run in testing mode"
 
 concurrency:
   group: ${{ github.repository }}
@@ -22,7 +22,7 @@ env:
   NXF_OUTPUT: ${{ github.workspace }}/outputs
   NXF_NAME: github-${{ github.run_number }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  FLUSRA_VERSION: 'main'
+  FLUSRA_VERSION: "main"
   BIOPROJECTS: "PRJNA1102327,PRJNA1122849,PRJNA1134696,PRJNA1219588,PRJNA980729,PRJNA1207547"
   TOWER_ACCESS_TOKEN: ${{ secrets.TOWER_ACCESS_TOKEN }}
   TOWER_WORKSPACE_ID: ${{ secrets.TOWER_WORKSPACE_ID }}
@@ -34,11 +34,11 @@ jobs:
   process_sra:
     runs-on: [self-hosted, profchaos]
     permissions:
-        contents: write
-        id-token: write
+      contents: write
+      id-token: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - uses: ./.github/actions/install-dependencies
       - name: Run nextflow
         run: nextflow run https://github.com/andersen-lab/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ github.workspace }}/config/nextflow.config -profile mamba --bioproject ${{ env.BIOPROJECTS }} --outdir ${{ env.NXF_OUTPUT }} -name ${{ env.NXF_NAME }} -with-tower -latest
@@ -103,7 +103,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
       - name: Upload Nextflow log
         if: failure()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: failed-run-log
           include-hidden-files: true

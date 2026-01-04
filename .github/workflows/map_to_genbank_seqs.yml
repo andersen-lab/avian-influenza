@@ -8,9 +8,9 @@ on:
   workflow_dispatch:
     inputs:
       reason:
-        description: 'Reason for running the workflow'
+        description: "Reason for running the workflow"
         required: true
-        default: 'Routine Processing'
+        default: "Routine Processing"
 
 concurrency:
   group: ${{ github.repository }}
@@ -23,16 +23,12 @@ jobs:
         shell: bash -el {0}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.13'
-      - name: Install dependencies
-        run: |
-          pip install pandas==2.3.1 biopython==1.85 polars==1.31.0 Unidecode==1.4.0 requests==2.32.4 pyarrow==21.0.0
+        uses: actions/checkout@v6
       - name: Map to GenBank Sequences
         run: |
+          # mamba create --name avian_influenza_map_to_genbank_seqs python=3.13
+          mamba activate avian_influenza_map_to_genbank_seqs
+          # pip install pandas==2.3.1 biopython==1.85 polars==1.31.0 Unidecode==1.4.0 requests==2.32.4 pyarrow==21.0.0
           python scripts/map_genbank.py \
             ${{ github.workspace }}/metadata/SraRunTable_automated.csv \
             ${{ github.workspace }}/fasta/ \
