@@ -24,11 +24,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
+      - name: Setup mamba env
+        run: |
+          if ! mamba env list | grep -q "avian_influenza_map_to_genbank_seqs"; then
+            mamba create --name avian_influenza_map_to_genbank_seqs python=3.13 -y
+            mamba activate avian_influenza_map_to_genbank_seqs
+            pip install pandas==2.3.1 biopython==1.85 polars==1.31.0 Unidecode==1.4.0 requests==2.32.4 pyarrow==21.0.0
+          fi
       - name: Map to GenBank Sequences
         run: |
-          # mamba create --name avian_influenza_map_to_genbank_seqs python=3.13
           mamba activate avian_influenza_map_to_genbank_seqs
-          # pip install pandas==2.3.1 biopython==1.85 polars==1.31.0 Unidecode==1.4.0 requests==2.32.4 pyarrow==21.0.0
           python scripts/map_genbank.py \
             ${{ github.workspace }}/metadata/SraRunTable_automated.csv \
             ${{ github.workspace }}/fasta/ \
@@ -37,6 +42,7 @@ jobs:
 
       - name: Normalize Metadata
         run: |
+          mamba activate avian_influenza_map_to_genbank_seqs
           python scripts/metadata_normalizer.py \
             --input_file ${{ github.workspace }}/metadata/SraRunTable_automated.csv \
             --genbank_file ${{ github.workspace }}/genbank_mapping.tsv \
