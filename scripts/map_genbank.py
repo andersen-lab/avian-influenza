@@ -1,12 +1,13 @@
 import argparse
-import pandas as pd
-import requests
 import io
 import os
 import sys
-from datetime import date
-from Bio import Entrez, SeqIO
 import time
+from datetime import date
+
+import pandas as pd
+import requests
+from Bio import Entrez, SeqIO
 
 
 def parse_args():
@@ -55,27 +56,29 @@ def download_ncbi_metadata():
 
     ncbi_df = pd.read_csv(io.StringIO(response.text))
     ncbi_df["sample_name_raw"] = ncbi_df["strain"].str.split("/").str[3]
-    ncbi_df["sample_name"] = ncbi_df["strain"].str.extract(r"/(\d{2}-\d{6}-\d{3})")
+    ncbi_df["sample_name"] = ncbi_df["strain"].str.extract(
+        r"/(\d{2}-\d{6}-\d{3}|\d{2}G\d{5}-\d{3})"
+    )
     return ncbi_df
 
 
 def resolve_samples(df):
     """
     Resolve ambiguous SRA-GenBank mappings by cross-referencing BioSample IDs.
-    
+
     Parameters:
         df (pd.DataFrame): A DataFrame containing SRA metadata with at least the following columns:
             - 'genbank_acc': GenBank accession numbers.
             - 'BioSample': BioSample IDs.
             - 'sra_run': SRA run identifiers.
-    
+
     Returns:
         tuple:
             - correct_matches (pd.DataFrame): A DataFrame of rows where the BioSample ID matches
               between the SRA metadata and GenBank data. Includes resolved mappings.
             - unresolved (pd.DataFrame): A DataFrame of rows that could not be resolved due to
               ambiguous or missing BioSample information.
-    
+
     Resolution Algorithm:
         1. Fetch GenBank records for the given accession numbers in batches.
         2. Extract BioSample IDs from the GenBank records' cross-references.
@@ -95,11 +98,14 @@ def resolve_samples(df):
         batch = accessions[i : i + batch_size]
         max_retries = 3
         backoff_factor = 0.5
-        
+
         for attempt in range(max_retries):
             try:
                 handle = Entrez.efetch(
-                    db="nucleotide", id=",".join(list(batch)), rettype="gb", retmode="text"
+                    db="nucleotide",
+                    id=",".join(list(batch)),
+                    rettype="gb",
+                    retmode="text",
                 )
                 for record in SeqIO.parse(handle, "genbank"):
                     if hasattr(record, "dbxrefs"):
@@ -116,12 +122,18 @@ def resolve_samples(df):
                 handle.close()
                 break  # Success, exit retry loop
             except Exception as e:
-                print(f"Warning: Attempt {attempt + 1} of {max_retries} failed for batch starting at index {i}: {e}", file=sys.stderr)
+                print(
+                    f"Warning: Attempt {attempt + 1} of {max_retries} failed for batch starting at index {i}: {e}",
+                    file=sys.stderr,
+                )
                 if attempt + 1 == max_retries:
-                    print(f"Failed to fetch data for batch starting at index {i} after {max_retries} attempts.", file=sys.stderr)
-                
+                    print(
+                        f"Failed to fetch data for batch starting at index {i} after {max_retries} attempts.",
+                        file=sys.stderr,
+                    )
+
                 # Exponential backoff
-                time.sleep(backoff_factor * (2 ** attempt))
+                time.sleep(backoff_factor * (2**attempt))
 
     if not biosample_data:
         print("Could not retrieve BioSample information from GenBank.")
@@ -143,9 +155,10 @@ def resolve_samples(df):
 
     # A row is unresolved if its sra_run AND genbank_acc are not in the sets of correct ones.
     # This avoids including rows that are part of a group that has been resolved.
-    is_unresolved = ~merged_df["sra_run"].isin(correct_sra_runs) & \
-                    ~merged_df["genbank_acc"].isin(correct_genbank_accs)
-    
+    is_unresolved = ~merged_df["sra_run"].isin(correct_sra_runs) & ~merged_df[
+        "genbank_acc"
+    ].isin(correct_genbank_accs)
+
     unresolved = merged_df[is_unresolved]
 
     return correct_matches, unresolved
@@ -186,13 +199,15 @@ def create_final_dataframe(sra_df, ncbi_df, fasta_dir):
     faulty_sra_assignment = merged_df[sra_counts_in_segment > 1]
 
     if not faulty_sra_assignment.empty:
-        print("Attempting to resolve SRA assignments for segments with multiple SRA runs")
+        print(
+            "Attempting to resolve SRA assignments for segments with multiple SRA runs"
+        )
         correct_matches, unresolved = resolve_samples(faulty_sra_assignment)
 
         print(len(correct_matches), "correct matches found")
 
         if correct_matches is not None and not correct_matches.empty:
-            print('Resolved SRA assignments for segments with multiple SRA runs')
+            print("Resolved SRA assignments for segments with multiple SRA runs")
             merged_df = merged_df[
                 ~merged_df["sra_run"].isin(faulty_sra_assignment["sra_run"])
             ]
@@ -204,7 +219,9 @@ def create_final_dataframe(sra_df, ncbi_df, fasta_dir):
                 "unresolved_sra_assignments.tsv", sep="\t", index=False, header=True
             )
     else:
-        print("No segments with multiple SRA runs found, proceeding with existing data.")
+        print(
+            "No segments with multiple SRA runs found, proceeding with existing data."
+        )
 
     # Map segments and filter based on available FASTA files using vectorized operations
     seg_map = {
