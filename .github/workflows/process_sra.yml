@@ -33,7 +33,7 @@ jobs:
       chunk_files: ${{ steps.split_sra.outputs.chunk_files }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - uses: ./.github/actions/install-dependencies
       - name: Run nextflow
         run: nextflow run https://github.com/andersen-lab/flusra.git -r ${{ env.FLUSRA_VERSION }} -c ${{ github.workspace }}/config/nextflow.config -profile mamba --only_fetch true --bioproject ${{ env.BIOPROJECTS }} --outdir ${{ env.NXF_OUTPUT }}
@@ -78,7 +78,7 @@ jobs:
         chunk_file: ${{fromJson(needs.fetch_sra.outputs.chunk_files)}}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Install Dependencies
         uses: ./.github/actions/install-dependencies
       - name: Download chunk files
@@ -129,7 +129,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Download metadata
         uses: actions/download-artifact@v7
         with:
