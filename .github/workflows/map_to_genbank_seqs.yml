@@ -23,7 +23,7 @@ jobs:
         shell: bash -el {0}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Setup mamba env
         run: |
           if ! mamba env list | grep -q "avian_influenza_map_to_genbank_seqs"; then
